@@ -1,0 +1,17 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync(__dirname+'/index.html','utf8');
+for(const m of source.matchAll(/<script>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);
+const nodes={pcpDashboard:{},operationStart:{value:'2026-11-09'},operationEnd:{value:'2026-11-15'},operationSearch:{value:''}};
+const row=(kind,q,code='p',unit='kg',store='001')=>({date:'2026-11-10',store,productCode:code,productName:code,operationCode:kind==='sale'?'000003':'000108',operation:kind==='sale'?'VENDA':'LIMPEZA',category:kind,quantity:q,movementValue:q*20,measureUnit:unit});
+const app={operations:[row('sale',50),row('loss',15),row('sale',10,'bread','un'),row('loss',2,'bread','un'),row('loss',5,'p','kg','002')],operationsMeta:{imports:[{store:'001',start:'2026-11-01',end:'2026-11-30'}]}};
+const ctx=vm.createContext({app,document:{getElementById:id=>nodes[id]},selectedOperationStore:'all',STORE_IDS:['001','002','003'],STORES:{'001':'Coronel','002':'Corrêas','003':'Bingen'},norm:s=>s.toLowerCase(),num:Number,fmtQty:(v,n)=>Number(v).toFixed(n),fmtCurrency:v=>'R$ '+v,esc:s=>s,formatDate:s=>s,kpi:(...s)=>s.join(' '),operationMeasureUnit:r=>r.measureUnit});
+vm.runInContext(fs.readFileSync(__dirname+'/pcp.js','utf8'),ctx);
+assert.equal(vm.runInContext("pcpMonday('2026-11-15')",ctx),'2026-11-09');
+assert.equal(vm.runInContext("pcpMonday('2026-11-16')",ctx),'2026-11-16');
+assert.equal(vm.runInContext("pcpPercent(15,50)",ctx),'30.0%');
+assert.equal(vm.runInContext("pcpPercent(15,0)",ctx),'Sem venda na base');
+assert.equal(vm.runInContext("pcpKind({operationCode:'000097',operation:'ENTRADA AJUSTE',category:'inventory'})",ctx),'adjustIn');
+vm.runInContext('renderPcpDashboard()',ctx);assert.ok(nodes.pcpDashboard.innerHTML.includes('Top 15 produtos'));assert.ok(nodes.pcpDashboard.innerHTML.includes('Não comparável'));assert.ok(nodes.pcpDashboard.innerHTML.includes('un.'));
+vm.runInContext("selectedOperationStore='001';renderPcpDashboard()",ctx);assert.ok(nodes.pcpDashboard.innerHTML.includes('30.0%'));
+assert.equal(vm.runInContext('pcpAggregate(app.operations.slice(0,2)).out',ctx),15);
+console.log('PCP OK: semanas, limites, unidades separadas, 15/50=30%, loja, sem vendas, ajustes de entrada, render e sintaxe.');

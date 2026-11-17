@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="rdg-version" content="2.10.0-2026-11-16">
+<meta name="rdg-version" content="2.11.0-2026-11-17">
 <title>Compras Gerenciais · Rei do Gado</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" onerror="window.__xlsxLoadError=true"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" onerror="window.__pdfLoadError=true"></script>
@@ -151,7 +151,7 @@ td{font-size:13px}
   </div>
 
   <section class="page on" id="page-overview">
-    <div class="pagehead"><div><h1>Visão gerencial</h1><p>Desempenho, estoque, rentabilidade e alertas em uma única leitura.</p></div><div class="version">Versão 2.10 · 16/11/2026</div></div>
+    <div class="pagehead"><div><h1>Visão gerencial</h1><p>Desempenho, estoque, rentabilidade e alertas em uma única leitura.</p></div><div class="version">Versão 2.11 · 17/11/2026</div></div>
     <div class="picker-grid">
       <div class="family-picker"><div class="family-picker-head"><b>🏪 Lojas no relatório</b><span>juntas ou selecionadas</span></div><div class="family-chips" id="overviewStoreBalloons"></div></div>
       <div class="family-picker"><div class="family-picker-head"><b>🏷️ Famílias no relatório</b><span>selecione uma ou várias</span></div><div class="family-chips" id="overviewFamilyBalloons"></div></div>
@@ -215,6 +215,7 @@ td{font-size:13px}
       <div class="family-picker"><div class="family-picker-head"><b>🏪 Loja</b><span>todas ou uma loja</span></div><div class="family-chips" id="operationStoreBalloons"></div></div>
       <div class="family-picker"><div class="family-picker-head"><b>🔎 Tipo de movimentação</b><span>todas ou uma categoria</span></div><div class="family-chips" id="operationCategoryBalloons"></div></div>
     </div>
+    <div id="pcpDashboard"></div>
     <div class="kpis" id="operationKpis"></div>
     <div class="operation-summary-grid">
       <div class="card"><div class="cardhead"><h2>Maiores perdas e limpezas</h2><span>ranking por quantidade movimentada</span></div><div class="cardbody" id="operationLossRanking"></div></div>
@@ -274,9 +275,10 @@ td{font-size:13px}
 </div></div>
 <div class="toast" id="toast"><b id="toastTitle"></b><span id="toastText"></span></div>
 
+<script src="pcp.js?v=2.11"></script>
 <script>
 "use strict";
-const VERSION="2.10.0-2026-11-16";
+const VERSION="2.11.0-2026-11-17";
 const INITIAL_DATA={"products":[],"operations":[],"period":{"start":"","end":""},"meta":{"sourceFile":"","validRows":0,"ignoredRows":0,"productCount":0,"familyCount":0,"familyConflicts":0,"inferredFamilies":0,"newProducts":0,"importedAt":""},"operationsMeta":{"imports":[],"importedAt":"","importedBy":""}};
 const STORES={"001":"Coronel","002":"Correas","003":"Bingen"};
 const STORE_IDS=Object.keys(STORES);
@@ -588,7 +590,7 @@ async function parseOperationsPdf(file,onProgress=()=>{}){
   if(!store)throw new Error("Não foi possível identificar a empresa/loja no extrato.");for(const row of rows)row.store=store;if(!rows.length)throw new Error("Nenhuma movimentação válida foi encontrada no PDF.");
   const dates=rows.map(row=>row.date).filter(Boolean).sort();return{store,rows,start:dates[0],end:dates[dates.length-1],pages:pdf.numPages};
 }
-function mergeOperationsImport(parsed,fileName){const keep=app.operations.filter(row=>!(row.store===parsed.store&&row.date>=parsed.start&&row.date<=parsed.end)),combined=[...keep,...parsed.rows],seen=new Set();app.operations=combined.filter(row=>{const key=[row.store,row.date,row.productCode,row.operationCode,row.document,row.quantity,row.unitPrice,row.movementValue].join("|");if(seen.has(key))return false;seen.add(key);return true;}).sort((a,b)=>a.date.localeCompare(b.date)||a.productName.localeCompare(b.productName,"pt-BR"));operationUnitCache.clear();for(const row of app.operations)row.measureUnit=operationMeasureUnit(row);const importedAt=new Date().toISOString(),entry={store:parsed.store,fileName,start:parsed.start,end:parsed.end,rows:parsed.rows.length,pages:parsed.pages,importedAt,importedBy:currentUser?.email||"Usuário"};const imports=(app.operationsMeta?.imports||[]).filter(item=>!(item.store===parsed.store&&item.start===parsed.start&&item.end===parsed.end));app.operationsMeta={imports:[entry,...imports].slice(0,24),importedAt,importedBy:entry.importedBy};saveState();setOperationPeriodDefaults(true);renderOperations();return entry;}
+function mergeOperationsImport(parsed,fileName){const keep=app.operations.filter(row=>!(row.store===parsed.store&&row.date>=parsed.start&&row.date<=parsed.end)),combined=[...keep,...parsed.rows],seen=new Set();app.operations=combined.filter(row=>{const key=[row.store,row.date,row.productCode,row.operationCode,row.document,row.quantity,row.unitPrice,row.movementValue].join("|");if(seen.has(key))return false;seen.add(key);return true;}).sort((a,b)=>a.date.localeCompare(b.date)||a.productName.localeCompare(b.productName,"pt-BR"));operationUnitCache.clear();for(const row of app.operations)row.measureUnit=operationMeasureUnit(row);const importedAt=new Date().toISOString(),entry={store:parsed.store,fileName,start:parsed.start,end:parsed.end,rows:parsed.rows.length,pages:parsed.pages,importedAt,importedBy:currentUser?.email||"Usuário"};const imports=(app.operationsMeta?.imports||[]).filter(item=>!(item.store===parsed.store&&item.start===parsed.start&&item.end===parsed.end));app.operationsMeta={imports:[entry,...imports],importedAt,importedBy:entry.importedBy};saveState();setOperationPeriodDefaults(true);renderOperations();return entry;}
 async function importOperationsPdf(file){if(!file)return;const button=document.getElementById("operationImportButton"),original=button.textContent;button.disabled=true;button.textContent="Lendo extrato…";let imported=false;try{const parsed=await parseOperationsPdf(file,(page,total)=>{button.textContent=`Lendo PDF ${page}/${total}…`;});const entry=mergeOperationsImport(parsed,file.name);imported=true;button.textContent="Salvando na base central…";await saveCentralState("operations_import");showToast("Extrato de operações importado",`${entry.rows} movimentações de ${STORES[entry.store]} · ${formatDate(entry.start)} até ${formatDate(entry.end)}. Todos os computadores foram atualizados.`);}catch(error){setSyncStatus(imported?"Operações não sincronizadas":"Erro na importação","error");showToast(imported?"Extrato salvo somente neste computador":"Erro ao importar extrato",firebaseErrorMessage(error),"error");}finally{button.disabled=false;button.textContent=original;}}
 function operationDateBounds(){const dates=app.operations.map(row=>row.date).filter(Boolean).sort();return{start:dates[0]||"",end:dates[dates.length-1]||""};}
 function setOperationPeriodDefaults(force=false){const bounds=operationDateBounds(),start=document.getElementById("operationStart"),end=document.getElementById("operationEnd");if(start&&(force||!start.value))start.value=bounds.start;if(end&&(force||!end.value))end.value=bounds.end;}
@@ -603,6 +605,7 @@ function clearOperationProduct(){selectedOperationProduct="";selectedOperationDa
 function selectMovementCode(code){selectedMovementCode=code||"all";renderOperations();}
 function renderMovementBalloons(rows){const target=document.getElementById("operationMovementBalloons");if(!target)return;const options=[...new Map(rows.map(row=>[row.operationCode,{code:row.operationCode,name:row.operation,category:row.category}])).values()].sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));if(selectedMovementCode!=="all"&&!options.some(item=>item.code===selectedMovementCode))selectedMovementCode="all";target.innerHTML=bubbleButton("Todas","▦","#344054",selectedMovementCode==="all","selectMovementCode('all')")+options.map(item=>{const category=OPERATION_CATEGORIES[item.category]||OPERATION_CATEGORIES.other;return bubbleButton(item.name,category.icon,category.color,selectedMovementCode===item.code,`selectMovementCode('${item.code}')`);}).join("");}
 function renderOperations(){
+  setOperationPeriodDefaults();renderPcpDashboard();
   const target=document.getElementById("operationKpis");if(!target)return;setOperationPeriodDefaults();renderOperationStoreBalloons();renderOperationCategoryBalloons();const rows=operationFilteredRows(),operational=rows.filter(row=>row.category!=="sale"),lossRows=operational.filter(row=>row.category==="loss"),inventoryRows=operational.filter(row=>row.category==="inventory"),entryRows=operational.filter(row=>row.category==="entry"),days=[...new Set(operational.map(row=>row.date))].sort().reverse();if(selectedOperationProduct)selectedOperationDate="";else if(!days.includes(selectedOperationDate))selectedOperationDate=days[0]||"";
   const lossTotals=splitOperationTotals(lossRows),inventoryTotals=splitOperationTotals(inventoryRows),entryTotals=splitOperationTotals(entryRows),products=new Set(operational.map(row=>row.productCode)).size,mainMeasure=totals=>totals.kg>0?`${fmtQty(totals.kg,2)}<span class="measure-suffix">kg</span>`:`${fmtQty(totals.units,0)}<span class="measure-suffix">un.</span>`,secondaryMeasure=totals=>`${totals.units?`${fmtQty(totals.units,0)} un. · `:""}${fmtCurrency(totals.value)}`;
   target.innerHTML=[kpi("Perdas e limpezas",mainMeasure(lossTotals),`${lossRows.length} lançamentos · ${secondaryMeasure(lossTotals)}`,lossRows.length?"danger":"success"),kpi("Ajustes de inventário",mainMeasure(inventoryTotals),`${inventoryRows.length} lançamentos · ${secondaryMeasure(inventoryTotals)}`,inventoryRows.length?"danger":"success"),kpi("Entradas e compras",mainMeasure(entryTotals),`${entryRows.length} movimentações · ${secondaryMeasure(entryTotals)}`),kpi("Dias movimentados",String(days.length),`${products} produtos diferentes`),kpi("Total operacional",String(operational.length),"vendas fora do foco principal")].join("");
