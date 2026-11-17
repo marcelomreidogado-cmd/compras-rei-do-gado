@@ -30,6 +30,7 @@ Polimento visual feito em 15/11/2026. Para não regredir (o Compras piorou em 16
 - Reaproveitar as cores, raios, botões e chips que o sistema já usa — não criar um estilo novo para cada tela.
 
 ### Conferência antes de publicar
+0. **Rodar `node test-visual.cjs` e só publicar se der "Visual OK".** Abre as 8 abas (lidas do menu) com `tests/dados-ficticios.js` em 390 e 1440 px; falha se a página estoura a largura, se uma linha de tabela passa de 110 px ou se dá erro de script. Ao criar aba nova, ela entra sozinha no teste. `FOTOS=<pasta> node test-visual.cjs` salva uma foto de cada tela para o antes e depois.
 1. Abrir o sistema com **dados fictícios** e **sem acesso ao banco real** (veja "Como testar o visual" abaixo).
 2. Fotografar as telas alteradas em 390 px e 1440 px (Playwright já instalado no ambiente; Chromium em `/opt/pw-browsers`).
 3. Medir que `document.documentElement.scrollWidth` não passa da largura da janela em todas as abas.
