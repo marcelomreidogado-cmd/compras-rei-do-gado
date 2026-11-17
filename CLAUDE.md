@@ -3,7 +3,7 @@
 Painel gerencial de compras do açougue Rei do Gado: visão geral, produtos, famílias, preços, bebidas, molhos e sugestão de compra, a partir de planilhas importadas.
 
 ## Arquitetura
-- `index.html` é o app inteiro (~90 KB, sem build). Versão em `VERSION` (formato `"2.7.0-2026-11-15"`; também na meta `rdg-version` e no texto "Versão" das telas) — atualizar ao mudar comportamento.
+- `index.html` é o app inteiro (~90 KB, sem build). Versão em `VERSION` (formato `"2.16.0-2026-11-17"`; também na meta `rdg-version` e no texto "Versão" das telas) — atualizar ao mudar comportamento.
 - Telas (`data-page`): `overview`, `products`, `families`, `prices`, `beverages`, `sauces`, `purchase`.
 - SheetJS 0.18.5 (cdnjs) para ler as planilhas; Firebase compat 10.12.5 (auth + **Realtime Database**).
 - Firebase projeto `motoboy-ddefa` (o mesmo do Caixa Rei do Gado e do RH). Estado central em `compras_gerencial_v2/state` (`CENTRAL_PATH`), sincronizado entre todos os computadores. Login com Firebase Auth (e-mail/senha).
@@ -15,3 +15,7 @@ Painel gerencial de compras do açougue Rei do Gado: visão geral, produtos, fam
 - Editar → `node --check` no script extraído → testar com um `CENTRAL_PATH` de teste, nunca no estado real → commit em português.
 - Mudança de estrutura do estado: migrar de forma compatível, sem apagar o que já foi importado; backup antes.
 - Usuário (Marcelo) trabalha em português do Brasil, no Mac, e prefere soluções simples, sem terminal.
+
+## Módulos e visual (17/11/2026)
+- Além do `index.html`: `pcp.js` (painel PCP/operações), `prices.js` (Produtos e preços), `product-notes.js` (marcação "comprado nesta semana" e observações). Cada um carregado com `?v=` — ao mudar o arquivo, subir o `v` no `<script>` do `index.html`. Testes: `node test-pcp.cjs`, `node test-prices.cjs`, `node test-product-notes.cjs`.
+- Visual: classes no fim do `<style>` (`.pn-*` marcação compacta em uma linha; `.pk-row/.pk-chip` filtros de preço). Evitar estilos inline grandes dentro das tabelas — cada produto deve caber em ~2 linhas.

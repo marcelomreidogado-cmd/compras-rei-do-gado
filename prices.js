@@ -2,7 +2,7 @@ let priceDiagnostic='all';
 function priceMarkup(cost,price){return cost>0&&price>0?(price-cost)/cost:null;}
 function priceDiagnosticMatch(r,key){return key==='cost'?!r.costEqual:key==='price'?!r.priceEqual:key==='equal'?!r.different:key==='missing'?r.missingCost||r.missingPrice:key==='low'?[r.m1,r.m2,r.m3].some(m=>Number.isFinite(m)&&m<.20):key==='negative'?[r.m1,r.m2,r.m3].some(m=>Number.isFinite(m)&&m<0):true;}
 function setPriceDiagnostic(key){priceDiagnostic=key;renderPrices();}
-function priceKpiButton(title,count,key){return '<button type="button" class="btn '+(priceDiagnostic===key?'primary':'')+'" style="padding:16px;white-space:normal" aria-pressed="'+(priceDiagnostic===key)+'" onclick="setPriceDiagnostic(\''+key+'\')">'+title+'<br><strong style="font-size:26px">'+count+'</strong></button>';}
+function priceKpiButton(title,count,key){return '<button type="button" class="pk-chip'+(priceDiagnostic===key?' on':'')+(count&&!['all','equal'].includes(key)?' alert':'')+'" aria-pressed="'+(priceDiagnostic===key)+'" onclick="setPriceDiagnostic(\''+key+'\')">'+title+'<strong>'+count+'</strong></button>';}
 function renderPrices(){
   const query=norm(document.getElementById('priceSearch').value),hidden=hiddenProductCodes();
   const base=app.products.map(buildPriceRow).filter(r=>(!query||norm(r.product.produto+' '+r.product.codigo_produto).includes(query))&&(!selectedPriceFamilies.size||selectedPriceFamilies.has(r.product.familia))&&(priceViewMode==='hidden'?hidden.has(String(r.product.codigo_produto)):!hidden.has(String(r.product.codigo_produto)))&&(priceViewMode!=='different'||r.different));
