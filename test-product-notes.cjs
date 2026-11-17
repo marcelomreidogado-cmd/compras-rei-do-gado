@@ -1,0 +1,11 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const html=fs.readFileSync(__dirname+'/index.html','utf8');
+const ctx=vm.createContext({Intl,Date,pcpMonday:d=>d,app:{products:[],productFollowups:{}},STORE_IDS:['001','002','003'],STORES:{'001':'Coronel','002':'Correas','003':'Bingen'},esc:s=>String(s),formatDate:s=>s});
+vm.runInContext(fs.readFileSync(__dirname+'/product-notes.js','utf8'),ctx);
+assert.equal(vm.runInContext("productNoteKey('001')",ctx),'p001');
+vm.runInContext("app.productFollowups.p001={weeks:{[productWeek()]:{'002':{bought:true,arrival:'2026-11-20'}}},note:'Transferência combinada'}",ctx);
+assert.ok(vm.runInContext("productNoteBadge('001')",ctx).includes('Correas'));assert.ok(vm.runInContext("productNoteBadge('001')",ctx).includes('2026-11-20'));
+const process=html.match(/function processRows\([\s\S]*?\n\}/)[0];assert.ok(!process.includes('app.hiddenProducts='));
+assert.ok(html.includes('productFollowups:remote?.productFollowups'));assert.ok(html.includes('JSON.stringify(value?.productFollowups'));
+for(const m of html.matchAll(/<script>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);
+console.log('OK: compras por loja e semana, previsão visível, ocultos preservados na importação, atualização remota e sintaxe.');
