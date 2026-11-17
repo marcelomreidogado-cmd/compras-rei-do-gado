@@ -1,6 +1,14 @@
 function productWeek(){return pcpMonday(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()));}
 function productNoteKey(code){return 'p'+encodeURIComponent(String(code)).replace(/\./g,'%2E');}
-function productNoteBadge(code){const entry=app.productFollowups?.[productNoteKey(code)]||{},week=productWeek(),buy=entry.weeks?.[week]||{};return '<div style="font-size:11px;color:#087a55">'+STORE_IDS.filter(s=>buy[s]?.bought).map(s=>'🛒 '+esc(STORES[s])+(buy[s].arrival?' · '+formatDate(buy[s].arrival):'')).join('<br>')+'</div>'+(entry.note||entry.transfer?.store?'<span style="font-size:11px">📝 '+esc(entry.note||'Transferência para '+STORES[entry.transfer.store])+'</span>':'');}
+function productNoteBadge(code){const entry=app.productFollowups?.[productNoteKey(code)]||{},week=productWeek(),buy=entry.weeks?.[week]||{};return '<div style="margin:8px 0;white-space:normal" ondblclick="event.stopPropagation()"><small>🛒 Comprado nesta semana</small><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:5px">'+STORE_IDS.map(s=>'<label style="display:inline-flex;align-items:center;gap:5px;padding:7px;border-radius:9px;border:1px solid '+(buy[s]?.bought?'#12b76a':'#d0d5dd')+';background:'+(buy[s]?.bought?'#dcfae6':'#fff')+';font-size:12px;color:#344054;cursor:pointer"><input type="checkbox" '+(buy[s]?.bought?'checked ':'')+'aria-label="Comprado para '+esc(STORES[s])+'" onchange="setInlineProductBought(decodeURIComponent(\''+encodeURIComponent(code)+'\'),\''+s+'\',this)">'+esc(STORES[s])+(buy[s]?.arrival?' · '+formatDate(buy[s].arrival):'')+'</label>').join('')+'</div></div>'+(entry.note||entry.transfer?.store?'<span style="font-size:11px">📝 '+esc(entry.note||'Transferência para '+STORES[entry.transfer.store])+'</span>':'');}
+async function setInlineProductBought(code,store,input){
+ const bought=input.checked,key=productNoteKey(code),week=productWeek();input.disabled=true;
+ try{if(!STORE_IDS.includes(store)||!fbDB||!currentUser||!syncReady)throw new Error('Sem conexão com a base central.');
+ const result=await fbDB.ref(CENTRAL_PATH+'/productFollowups/'+key+'/weeks/'+week+'/'+store).transaction(old=>({...old,bought,updatedAt:new Date().toISOString(),updatedBy:currentUser.email||''}));
+ if(!result.committed)throw new Error('Marcação não salva.');
+ app.productFollowups=app.productFollowups||{};const entry=app.productFollowups[key]||(app.productFollowups[key]={});entry.weeks=entry.weeks||{};entry.weeks[week]=entry.weeks[week]||{};entry.weeks[week][store]=result.snapshot.val();saveState();renderProducts();renderBeverages();renderSauces();
+ }catch(error){input.checked=!bought;showToast('Não foi possível salvar',error.message,'error');}finally{input.disabled=false;}
+}
 function openProductNotes(code){
  const p=app.products.find(p=>String(p.codigo_produto)===String(code));if(!p)return;
  const entry=app.productFollowups?.[productNoteKey(code)]||{},week=productWeek(),buy=entry.weeks?.[week]||{},t=entry.transfer||{};
