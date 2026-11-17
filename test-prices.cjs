@@ -1,0 +1,13 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync(__dirname+'/index.html','utf8');
+const nodes=Object.fromEntries(['priceSearch','priceKpis','priceHead','priceBody','priceInsights'].map(id=>[id,{value:'',innerHTML:''}]));
+const product={produto:'Teste',codigo_produto:'001',familia:'Carnes'};for(const s of ['001','002','003'])Object.assign(product,{['custo_atual_'+s]:5,['preco_praticado_'+s]:15,['venda_periodo_'+s]:10});
+const ctx=vm.createContext({app:{products:[product]},document:{getElementById:id=>nodes[id]},norm:s=>String(s).toLowerCase(),num:Number,STORE_IDS:['001','002','003'],STORES:{'001':'Coronel','002':'Correas','003':'Bingen'},hiddenProductCodes:()=>new Set(),selectedPriceFamilies:new Set(),priceViewMode:'all',priceSort:{key:'name',dir:1},sameMoney:values=>new Set(values).size===1,esc:String,fmtCurrency:n=>n.toFixed(2),fmtPct:n=>(n*100).toFixed(1)+'%',familyBadge:()=>'',visibilityButton:()=>'',priceStatusBadge:()=>'',kpi:(...a)=>a.join(' ')});
+for(const name of ['priceMargin','buildPriceRow','priceCell','marginCell'])vm.runInContext(source.match(new RegExp('function '+name+'[^\\n]+'))[0],ctx);
+vm.runInContext(fs.readFileSync(__dirname+'/prices.js','utf8'),ctx);
+assert.equal(vm.runInContext('priceMarkup(5,15)',ctx),2);assert.equal(vm.runInContext('priceMargin(5,15)',ctx),2/3);assert.equal(vm.runInContext('priceMargin(0,15)',ctx),null);
+vm.runInContext('renderPrices()',ctx);assert.ok(nodes.priceBody.innerHTML.includes('200.0%'));assert.ok(nodes.priceBody.innerHTML.includes('66.7%'));
+vm.runInContext("setPriceDiagnostic('cost')",ctx);assert.ok(nodes.priceBody.innerHTML.includes('Nenhum produto'));
+product.custo_atual_002=7;vm.runInContext('renderPrices()',ctx);assert.ok(nodes.priceBody.innerHTML.includes('Teste'));assert.ok(nodes.priceInsights.innerHTML.includes('20.00'));
+product.preco_praticado_002=4;vm.runInContext("setPriceDiagnostic('negative')",ctx);assert.ok(nodes.priceInsights.innerHTML.includes('Venda abaixo do custo'));
+console.log('Preços OK: margem 66,7%, markup 200%, custo ausente, filtros exclusivos, oportunidade de custo e venda abaixo do custo.');
