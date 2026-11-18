@@ -29,6 +29,12 @@ Polimento visual feito em 15/11/2026. Para não regredir (o Compras piorou em 16
 - **Números** com algarismos alinhados (`font-variant-numeric: tabular-nums`), sem fonte monoespaçada; valores com sinal não quebram linha.
 - Reaproveitar as cores, raios, botões e chips que o sistema já usa — não criar um estilo novo para cada tela.
 
+### v2.17 (18/11/2026): ajustes do critique/audit Impeccable
+- Sugestão de compras: no celular vira cartões (`.pc-card`) com "Comprar X kg/un" e marcação "Comprado"; parâmetros recolhidos em `<details class="pc-params">`; botão "Enviar no WhatsApp". Itens vendidos por unidade (`unidade`=un) sempre arredondam para cima.
+- Importação: prévia + confirmação (`#importModal`); a base anterior fica em `app.previousImport` e volta com "Desfazer última importação".
+- Cores das lojas não usam mais vermelho/verde (reservados a alerta). Seleção de loja fica salva por aparelho (`rdg_compras_prefs`).
+- Acessibilidade: texto mínimo 11 px, cinza de texto `#667085` (não usar `#98a2b3` em texto), itens com `onclick` ganham foco e Enter automaticamente.
+
 ### Conferência antes de publicar
 0. **Rodar `node test-visual.cjs` e só publicar se der "Visual OK".** Abre as 8 abas (lidas do menu) com `tests/dados-ficticios.js` em 390 e 1440 px; falha se a página estoura a largura, se uma linha de tabela passa de 110 px ou se dá erro de script. Ao criar aba nova, ela entra sozinha no teste. `FOTOS=<pasta> node test-visual.cjs` salva uma foto de cada tela para o antes e depois.
 1. Abrir o sistema com **dados fictícios** e **sem acesso ao banco real** (veja "Como testar o visual" abaixo).
