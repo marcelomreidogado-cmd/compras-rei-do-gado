@@ -33,3 +33,14 @@ assert.equal(vm.runInContext("pcpMetricValue(pcpAggregate(app.operations.slice(0
 assert.deepEqual(JSON.parse(JSON.stringify(vm.runInContext("pcpRange('2026-11-09','2026-11-15')",ctx))),{start:'2026-11-02',end:'2026-11-08'});
 vm.runInContext("pcpUnit='all';renderPcpDashboard()",ctx);assert.ok(nodes.pcpDashboard.innerHTML.includes('R$ vendas'));assert.ok(nodes.pcpDashboard.innerHTML.includes('Limpeza / vendas · R$'));
 console.log('Comparativos OK: família patinho/alcatra, unidade inteira, período equivalente, limpeza em R$.');
+const importCtx=vm.createContext({app:{products:[{codigo_produto:'000221',produto:'PATINHO PECA',familia:'PATINHO',unidade:'kg'}],familyMap:{'000221':'PATINHO'},hiddenProducts:['000999']},STORE_IDS:['001','002','003'],currentUser:{email:'teste'},operationUnitCache:new Map(),saveState(){},setFamilyOptions(){},updateSourceBar(){},renderAll(){},norm:s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'')});
+for(const name of ['normalizeMeasureUnit','detectColumns','parsePtNumber','inferFamily','cleanProductCode'])vm.runInContext(source.match(new RegExp('function '+name+'[^\\n]+'))[0],importCtx);
+vm.runInContext(source.slice(source.indexOf('function processRows('),source.indexOf('async function importFile(')),importCtx);
+vm.runInContext("processRows([{Empresa:'001',CodigoProduto:221,Produto:'PATINHO PECA',EstoqueAtual:12,VendaPeriodo:50},{Empresa:'001',CodigoProduto:180,Produto:'ALCATRA PECA',EstoqueAtual:10,VendaPeriodo:20,Familia:'ALCATRA',Unidade:'KG'}],'teste.csv')",importCtx);
+assert.equal(vm.runInContext("app.products.find(p=>p.codigo_produto==='000221').unidade",importCtx),'kg');
+assert.equal(vm.runInContext("app.products.find(p=>p.codigo_produto==='000180').familia",importCtx),'ALCATRA');
+assert.equal(vm.runInContext('app.hiddenProducts[0]',importCtx),'000999');
+vm.runInContext(fs.readFileSync(__dirname+'/operations-dashboard.js','utf8'),importCtx);
+assert.equal(vm.runInContext("operationUnitsFromRows([{Codigo:221,Unidade:'KG'}])['000221']",importCtx),'kg');
+assert.throws(()=>vm.runInContext("operationUnitsFromRows([{Codigo:221,Unidade:'KG'},{Codigo:221,Unidade:'UN'}])",importCtx),/conflitantes/);
+console.log('Importação OK: preserva unidade conhecida, família nova e ocultos; cadastro separado rejeita unidades conflitantes.');

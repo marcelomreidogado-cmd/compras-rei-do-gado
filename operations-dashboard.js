@@ -3,7 +3,7 @@ let pcpUnit='kg',pcpMetric='clean',pcpGroup='product',pcpFamilyFilter='',pcpComp
 const PCP_METRICS={clean:'Limpeza',loss:'Todas as perdas',adjustOut:'Ajustes de saída'};
 function operationUnitsFromRows(rows){
  if(!rows.length)throw new Error('O arquivo está vazio.');
- const cols=detectColumns(Object.keys(rows[0]));if(!cols.code||!cols.unit)throw new Error('O relatório precisa das colunas Código do produto e Unidade.');
+ const cols=detectColumns([...new Set(rows.flatMap(Object.keys))]);if(!cols.code||!cols.unit)throw new Error('O relatório precisa das colunas Código do produto e Unidade.');
  const units={};for(const row of rows){const code=cleanProductCode(row[cols.code]),unit=normalizeMeasureUnit(row[cols.unit]);if(!code||!unit)continue;if(units[code]&&units[code]!==unit)throw new Error('Unidades conflitantes para o produto '+code);units[code]=unit;}
  if(!Object.keys(units).length)throw new Error('Nenhuma unidade kg ou un foi encontrada.');return units;
 }
