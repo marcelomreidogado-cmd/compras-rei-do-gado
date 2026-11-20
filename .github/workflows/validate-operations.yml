@@ -1,0 +1,24 @@
+name: Validar painel de operações
+on:
+  push:
+    branches: [corrigir-operacoes-218]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: node test-pcp.cjs && node test-prices.cjs && node test-product-notes.cjs
+      - run: FOTOS=visual-after node test-visual.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: revisao-visual-operacoes
+          path: visual-after

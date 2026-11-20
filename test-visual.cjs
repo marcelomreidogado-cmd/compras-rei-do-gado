@@ -4,14 +4,14 @@
 // Uso: node test-visual.cjs   (Playwright/Chromium já vêm no ambiente do Claude)
 const { chromium } = require('playwright');
 const path = require('path'), fs = require('fs');
-const fake = fs.readFileSync(path.join(__dirname, 'tests/dados-ficticios.js'), 'utf8');
+const fake = fs.readFileSync(path.join(__dirname, 'test-operations-data.js'), 'utf8');
 const ABAS = [...fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8').matchAll(/class="navbtn[^"]*" data-page="([a-z]+)"/g)].map(m => m[1]);
 const LARGURAS = [390, 1440];
 const LINHA_MAX = 110; // px por linha de produto (o padrão é ~2 linhas de texto)
 const FOTOS = process.env.FOTOS; // opcional: pasta para salvar fotos de cada aba
 (async () => {
   const falhas = [];
-  const b = await chromium.launch();
+  const b = await chromium.launch({executablePath:process.env.CHROMIUM_PATH || undefined});
   for (const w of LARGURAS) {
     const p = await b.newPage({ viewport: { width: w, height: 900 } });
     p.on('pageerror', e => falhas.push(`${w}px: erro de script: ${e.message.slice(0, 120)}`));
