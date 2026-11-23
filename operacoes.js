@@ -3,7 +3,9 @@
 const OP_LOSS_KIND={'000058':'Limpeza','000108':'Limpeza','000109':'Limpeza','000110':'Limpeza','000113':'Sangue/líquido','000126':'Sangue/líquido','000125':'Estragado/vencido','000044':'Estragado/vencido','000096':'Perda na loja'};
 const OP_INV_IN='000097',OP_INV_OUT='000094';
 const OP_PERIODS={month:'Mês do último extrato',prev:'Mês anterior',d30:'Últimos 30 dias',all:'Tudo',custom:'Escolher datas'};
-let op3={period:'month',start:'',end:'',store:'all',query:'',evo:'week',metric:'loss',lossLimit:12,invLimit:12,product:''};
+let op3={period:'month',start:'',end:'',store:'all',query:'',evo:'week',metric:'loss',lossKind:'all',lossLimit:12,invLimit:12,product:''};
+const OP_KINDS=['Limpeza','Sangue/líquido','Estragado/vencido','Perda na loja'];
+const opKindOf=r=>OP_LOSS_KIND[r.operationCode]||'Perda na loja';
 
 /* utilitários usados também por outros módulos */
 function pcpMonday(date){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);return d.toISOString().slice(0,10);}
@@ -32,10 +34,10 @@ function opRows(range,{allStores=false,ignoreQuery=false}={}){
 
 /* ---------- agregações ---------- */
 function opTotals(rows){
-  const t={sale:0,entry:0,loss:0,invIn:0,invOut:0,transferIn:0,transferOut:0,production:0,clean:0,lossQty:{kg:0,un:0}};
+  const t={sale:0,entry:0,loss:0,invIn:0,invOut:0,transferIn:0,transferOut:0,production:0,clean:0,blood:0,spoil:0,lossQty:{kg:0,un:0},kindQty:{}};
   for(const r of rows){const v=Math.abs(r.movementValue);
     if(r.category==='sale')t.sale+=v;else if(r.category==='entry'&&!/devolu/i.test(r.operation))t.entry+=v;
-    else if(r.category==='loss'){t.loss+=v;if(OP_LOSS_KIND[r.operationCode]==='Limpeza')t.clean+=v;const u=operationMeasureUnit(r);if(u==='kg')t.lossQty.kg+=Math.abs(r.quantity);else t.lossQty.un+=Math.abs(r.quantity);}
+    else if(r.category==='loss'){t.loss+=v;const k=opKindOf(r);if(k==='Limpeza')t.clean+=v;else if(k==='Sangue/líquido')t.blood+=v;else t.spoil+=v;const kq=t.kindQty[k]||(t.kindQty[k]={kg:0,un:0});kq[operationMeasureUnit(r)==='un'?'un':'kg']+=Math.abs(r.quantity);const u=operationMeasureUnit(r);if(u==='kg')t.lossQty.kg+=Math.abs(r.quantity);else t.lossQty.un+=Math.abs(r.quantity);}
     else if(r.operationCode===OP_INV_IN)t.invIn+=v;else if(r.operationCode===OP_INV_OUT)t.invOut+=v;
     else if(r.operationCode==='000134')t.transferIn+=v;else if(r.operationCode==='000135')t.transferOut+=v;
     else if(r.category==='production')t.production+=v;}
@@ -43,10 +45,10 @@ function opTotals(rows){
 }
 function opByProduct(rows){
   const map=new Map();
-  for(const r of rows){const k=r.productCode;let p=map.get(k);if(!p){p={code:k,name:r.productName,rows:[],sale:{q:0,v:0},loss:{q:0,v:0},invIn:{q:0,v:0},invOut:{q:0,v:0},prod:0,stores:{},kinds:{},weeks:new Set(),invWeeks:new Set()};map.set(k,p);}
+  for(const r of rows){const k=r.productCode;let p=map.get(k);if(!p){p={code:k,name:r.productName,rows:[],kinds:{},kindQ:{},kindStores:{},sale:{q:0,v:0},loss:{q:0,v:0},invIn:{q:0,v:0},invOut:{q:0,v:0},prod:0,stores:{},weeks:new Set(),invWeeks:new Set()};map.set(k,p);}
     p.rows.push(r);const q=Math.abs(r.quantity),v=Math.abs(r.movementValue),s=p.stores[r.store]||(p.stores[r.store]={loss:0,invIn:0,invOut:0});
     if(r.category==='sale'){p.sale.q+=q;p.sale.v+=v;}
-    else if(r.category==='loss'){p.loss.q+=q;p.loss.v+=v;s.loss+=v;const kind=OP_LOSS_KIND[r.operationCode]||'Outras perdas';p.kinds[kind]=(p.kinds[kind]||0)+v;p.weeks.add(pcpMonday(r.date));}
+    else if(r.category==='loss'){p.loss.q+=q;p.loss.v+=v;s.loss+=v;const kind=opKindOf(r);p.kinds[kind]=(p.kinds[kind]||0)+v;p.kindQ[kind]=(p.kindQ[kind]||0)+q;const ks=p.kindStores[kind]||(p.kindStores[kind]={});ks[r.store]=(ks[r.store]||0)+v;p.weeks.add(pcpMonday(r.date));}
     else if(r.operationCode===OP_INV_IN){p.invIn.q+=q;p.invIn.v+=v;s.invIn+=v;p.invWeeks.add(pcpMonday(r.date));}
     else if(r.operationCode===OP_INV_OUT){p.invOut.q+=q;p.invOut.v+=v;s.invOut+=v;p.invWeeks.add(pcpMonday(r.date));}
     else if(r.category==='production')p.prod+=v;}
@@ -61,7 +63,7 @@ function opInsights(rows,products,range){
   for(const i of imports.filter(i=>i.checkOk===false))out.push({level:'critical',icon:'⚠️',title:`Extrato de ${STORES[i.store]} não fechou com o resumo do PDF`,text:`${opShort(i.start)} a ${opShort(i.end)} · reimporte o PDF ou confira o relatório.`});
   for(const s of STORE_IDS){if(op3.store!=='all'&&op3.store!==s)continue;const dates=new Set(rows.filter(r=>r.store===s).map(r=>r.date));if(!dates.size&&app.operations.some(r=>r.store===s))out.push({level:'warning',icon:'📄',title:`${STORES[s]} sem movimentação no período`,text:'Falta importar o extrato desta loja para estas datas.'});}
   const comp=products.filter(p=>p.loss.v>=50&&p.invIn.v>=50).sort((a,b)=>Math.min(b.loss.v,b.invIn.v)-Math.min(a.loss.v,a.invIn.v)).slice(0,4);
-  for(const p of comp)out.push({level:'critical',icon:'🔁',code:p.code,title:`${p.name}: inventário devolvendo o que saiu como perda`,text:`Perda/limpeza ${money(p.loss.v)} e entrada no inventário ${money(p.invIn.v)}. A limpeza ou a produção pode estar lançada a mais.`});
+  for(const p of comp)out.push({level:'critical',icon:'🔁',code:p.code,title:`${p.name}: inventário devolvendo o que saiu como perda`,text:`${OP_KINDS.filter(k=>p.kinds[k]).map(k=>k+' '+money(p.kinds[k])).join(' · ')} e entrada no inventário ${money(p.invIn.v)}. Algum desses lançamentos pode estar a mais.`});
   const prodCodes=new Set(rows.filter(r=>['000042','000138','000058','000083','000131'].includes(r.operationCode)).map(r=>r.productCode));
   for(const p of products.filter(p=>p.invOut.v>=300).sort((a,b)=>b.invOut.v-a.invOut.v).slice(0,4))out.push({level:p.invOut.v>=1000?'critical':'warning',icon:'📉',code:p.code,title:`${p.name}: falta de ${money(p.invOut.v)} no inventário`,text:prodCodes.has(p.code)||/hamb|burger|blend/i.test(p.name)?'Item usado na produção: confira se toda produção foi baixada no sistema.':`Saída de ${pcpQty(p.invOut.q,p.unit)} sem venda ou perda registrada.`});
   for(const p of products.filter(p=>p.lossShare!=null&&p.lossShare>=.08&&p.lossShare<=1&&p.loss.v>=80).sort((a,b)=>b.lossShare-a.lossShare).slice(0,3))out.push({level:'warning',icon:'🧹',code:p.code,title:`${p.name}: perda de ${fmtPct(p.lossShare)} do que foi vendido`,text:`${pcpQty(p.loss.q,p.unit)} de perda/limpeza para ${pcpQty(p.sale.q,p.unit)} vendidos.`});
@@ -73,13 +75,13 @@ function opInsights(rows,products,range){
 }
 
 /* ---------- gráfico de evolução (barras empilhadas por loja) ---------- */
-const OP_METRICS={loss:'Perdas e limpeza',invOut:'Saída de inventário',invIn:'Entrada de inventário',invNet:'Saldo do inventário'};
+const OP_METRICS={loss:'Todas as perdas',clean:'Limpeza',blood:'Sangue/líquido',spoil:'Estragado/perda',invOut:'Falta no inventário',invIn:'Sobra no inventário',invNet:'Saldo do inventário'};
 function opEvolution(range){
   const all=opRows({start:'0000',end:'9999'},{ignoreQuery:false}),keyOf=d=>op3.evo==='month'?d.slice(0,7):pcpMonday(d);
   let rows=all;if(op3.evo==='week'){const from=opDay(pcpMonday(range.end),-7*11);rows=all.filter(r=>r.date>=from&&r.date<=range.end);}
   const buckets=new Map();
   for(const r of rows){const k=keyOf(r.date);let b=buckets.get(k);if(!b){b={key:k,stores:{}};buckets.set(k,b);}const s=b.stores[r.store]||(b.stores[r.store]=[]);s.push(r);}
-  return[...buckets.values()].sort((a,b)=>a.key.localeCompare(b.key)).map(b=>{const vals={},sale={};let total=0,saleT=0;for(const s of STORE_IDS){const t=opTotals(b.stores[s]||[]);vals[s]=t[op3.metric];sale[s]=t.sale;total+=t[op3.metric];saleT+=t.sale;}return{key:b.key,label:op3.evo==='month'?opMonthName(b.key):opShort(b.key),vals,total,pct:op3.metric==='loss'&&saleT>0?total/saleT:null,saleT};});
+  return[...buckets.values()].sort((a,b)=>a.key.localeCompare(b.key)).map(b=>{const vals={},sale={};let total=0,saleT=0;for(const s of STORE_IDS){const t=opTotals(b.stores[s]||[]);vals[s]=t[op3.metric];sale[s]=t.sale;total+=t[op3.metric];saleT+=t.sale;}return{key:b.key,label:op3.evo==='month'?opMonthName(b.key):opShort(b.key),vals,total,pct:['loss','clean','blood','spoil'].includes(op3.metric)&&saleT>0?total/saleT:null,saleT};});
 }
 function opChart(series){
   if(!series.length)return empty('Sem dados para o gráfico','Importe um extrato para ver a evolução.');
@@ -94,8 +96,8 @@ function opChart(series){
     if(s.pct!=null)svg+=`<text x="${x+bw/2}" y="${H-padB+29}" class="op3-pct" text-anchor="middle">${fmtPct(s.pct)}</text>`;
     svg+=`<rect x="${padL+step*i}" y="${padT}" width="${step}" height="${H-padT-padB}" fill="transparent" class="op3-hit" data-tip="${esc(s.label+' · total '+fmtCurrency(s.total)+(s.pct!=null?' · '+fmtPct(s.pct)+' das vendas':'')+'\n'+stores.map(st=>STORES[st]+': '+fmtCurrency(s.vals[st])).join('\n'))}"/>`;});
   svg+='</svg>';
-  const legend=stores.length>1?`<div class="op3-legend">${stores.map(s=>`<span><i style="background:${STORE_COLORS[s]}"></i>${esc(STORES[s])}</span>`).join('')}${op3.metric==='loss'?'<span class="op3-muted">% = perda sobre vendas</span>':''}</div>`:'';
-  const table=`<details class="op3-table"><summary>Ver números em tabela</summary><div class="tablewrap"><table><thead><tr><th>${op3.evo==='month'?'Mês':'Semana de'}</th>${stores.map(s=>`<th class="num">${esc(STORES[s])}</th>`).join('')}<th class="num">Total</th>${op3.metric==='loss'?'<th class="num">% vendas</th>':''}</tr></thead><tbody>${series.map(s=>`<tr><td>${esc(s.label)}</td>${stores.map(st=>`<td class="num">${fmtCurrency(s.vals[st])}</td>`).join('')}<td class="num"><b>${fmtCurrency(s.total)}</b></td>${op3.metric==='loss'?`<td class="num">${fmtPct(s.pct)}</td>`:''}</tr>`).join('')}</tbody></table></div></details>`;
+  const legend=stores.length>1?`<div class="op3-legend">${stores.map(s=>`<span><i style="background:${STORE_COLORS[s]}"></i>${esc(STORES[s])}</span>`).join('')}${['loss','clean','blood','spoil'].includes(op3.metric)?'<span class="op3-muted">% = sobre as vendas</span>':''}</div>`:'';
+  const table=`<details class="op3-table"><summary>Ver números em tabela</summary><div class="tablewrap"><table><thead><tr><th>${op3.evo==='month'?'Mês':'Semana de'}</th>${stores.map(s=>`<th class="num">${esc(STORES[s])}</th>`).join('')}<th class="num">Total</th>${['loss','clean','blood','spoil'].includes(op3.metric)?'<th class="num">% vendas</th>':''}</tr></thead><tbody>${series.map(s=>`<tr><td>${esc(s.label)}</td>${stores.map(st=>`<td class="num">${fmtCurrency(s.vals[st])}</td>`).join('')}<td class="num"><b>${fmtCurrency(s.total)}</b></td>${['loss','clean','blood','spoil'].includes(op3.metric)?`<td class="num">${fmtPct(s.pct)}</td>`:''}</tr>`).join('')}</tbody></table></div></details>`;
   return legend+`<div class="op3-chartwrap">${svg}</div>`+table;
 }
 
@@ -103,9 +105,14 @@ function opChart(series){
 function opStoreCells(p,key){return STORE_IDS.map(s=>`<td class="num store-c${STORE_IDS.indexOf(s)+1}">${p.stores[s]?.[key]?fmtMoney(p.stores[s][key]):'—'}</td>`).join('');}
 function opProductBtn(p){return`<td class="op3-name"><button type="button" class="op3-link" onclick="opOpenProduct('${encodeURIComponent(p.code)}')">${esc(p.name)}</button><small>${esc(p.code)}</small></td>`;}
 function opLossTable(products){
-  const list=products.filter(p=>p.loss.v>0).sort((a,b)=>b.loss.v-a.loss.v);if(!list.length)return empty('Nenhuma perda ou limpeza no período','');
-  const rows=list.slice(0,op3.lossLimit).map((p,i)=>{const kind=Object.entries(p.kinds).sort((a,b)=>b[1]-a[1])[0]?.[0]||'';return`<tr><td class="num op3-rank">${i+1}</td>${opProductBtn(p)}<td>${esc(kind)}</td><td class="num">${pcpQty(p.loss.q,p.unit)}</td><td class="num"><b>${fmtCurrency(p.loss.v)}</b></td><td class="num">${p.lossShare==null?'—':p.lossShare>1?'<span class="op3-muted" title="Perda maior que a venda do próprio código: item vendido como outro produto (ex.: peça que vira cortes)">matéria-prima</span>':fmtPct(p.lossShare)}</td>${opStoreCells(p,'loss')}</tr>`;});
-  return`<div class="tablewrap op3-tw"><table class="op3-tbl"><thead><tr><th class="num op3-rank">#</th><th>Produto</th><th>Tipo principal</th><th class="num">Quantidade</th><th class="num">Valor</th><th class="num" title="Quantidade perdida ÷ quantidade vendida do item">% da venda</th>${STORE_IDS.map((s,i)=>`<th class="num store-c${i+1}">${esc(STORES[s])}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>${list.length>op3.lossLimit?`<button class="btn sm op3-more" type="button" onclick="op3.lossLimit+=20;renderOperations()">Ver mais ${Math.min(20,list.length-op3.lossLimit)} de ${list.length}</button>`:''}`;
+  const kind=op3.lossKind,val=p=>kind==='all'?p.loss.v:(p.kinds[kind]||0),list=products.filter(p=>val(p)>0).sort((a,b)=>val(b)-val(a));
+  const chips=`<div class="pk-row op3-inline op3-kinds">${[['all','Todos os tipos'],...OP_KINDS.map(k=>[k,k])].map(([k,l])=>`<button type="button" class="pk-chip${kind===k?' on':''}" aria-pressed="${kind===k}" onclick="op3.lossKind='${k}';op3.lossLimit=12;renderOperations()">${l}</button>`).join('')}</div>`;
+  if(!list.length)return chips+empty('Nenhuma perda deste tipo no período','');
+  const cell=(p,k)=>p.kinds[k]?`<td class="num${kind===k?' op3-kcol':''}">${pcpQty(p.kindQ[k],p.unit)}<small>${fmtMoney(p.kinds[k])}</small></td>`:`<td class="num op3-muted${kind===k?' op3-kcol':''}">—</td>`;
+  const share=p=>{const q=kind==='all'?p.loss.q:(p.kindQ[kind]||0),x=p.sale.q>0?q/p.sale.q:null;return x==null?'—':x>1?'<span class="op3-muted" title="Perda maior que a venda do próprio código: item vendido como outro produto (ex.: peça que vira cortes)">matéria-prima</span>':fmtPct(x);};
+  const storeVal=(p,s)=>kind==='all'?p.stores[s]?.loss:p.kindStores[kind]?.[s];
+  const rows=list.slice(0,op3.lossLimit).map((p,i)=>`<tr><td class="num op3-rank">${i+1}</td>${opProductBtn(p)}${OP_KINDS.map(k=>cell(p,k)).join('')}<td class="num"><b>${fmtCurrency(val(p))}</b></td><td class="num">${share(p)}</td>${STORE_IDS.map((s,j)=>`<td class="num store-c${j+1}">${storeVal(p,s)?fmtMoney(storeVal(p,s)):'—'}</td>`).join('')}</tr>`);
+  return chips+`<div class="tablewrap op3-tw"><table class="op3-tbl"><thead><tr><th class="num op3-rank">#</th><th>Produto</th>${OP_KINDS.map(k=>`<th class="num${kind===k?' op3-kcol':''}">${k}</th>`).join('')}<th class="num">${kind==='all'?'Total':esc(kind)}</th><th class="num" title="Quantidade perdida ÷ quantidade vendida do item">% da venda</th>${STORE_IDS.map((s,i)=>`<th class="num store-c${i+1}">${esc(STORES[s])}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>${list.length>op3.lossLimit?`<button class="btn sm op3-more" type="button" onclick="op3.lossLimit+=20;renderOperations()">Ver mais ${Math.min(20,list.length-op3.lossLimit)} de ${list.length}</button>`:''}`;
 }
 function opInvTable(products){
   const list=products.filter(p=>p.invIn.v||p.invOut.v).sort((a,b)=>Math.abs(b.invIn.v)+Math.abs(b.invOut.v)-Math.abs(a.invIn.v)-Math.abs(a.invOut.v));if(!list.length)return empty('Nenhum acerto de inventário no período','');
@@ -134,13 +141,15 @@ function renderOperations(){
   document.getElementById('op3RangeLabel').textContent=range.start?`${formatDate(range.start)} a ${formatDate(range.end)} · ${opDaysBetween(range.start,range.end)} dias`:'';
   if(!app.operations.length){body.innerHTML=`<div class="card">${empty('Nenhuma movimentação na base','Importe o "Extrato de Produtos - Com Saldo e Resumo por Operação" do Alterdata (pode ter as 3 lojas no mesmo PDF).')}</div>`;renderOpImports();return;}
   const rows=opRows(range),prev=opRows(opPrevRange(range)),t=opTotals(rows),p=opTotals(prev),products=opByProduct(rows),insights=opInsights(rows,products,range);
+  const kq=k=>{const x=t.kindQty[k];return x?[x.kg?fmtQty(x.kg,1)+' kg':'',x.un?formatUnits(x.un)+' un':''].filter(Boolean).join(' · '):'';};
   const kpis=[
-    opKpi('Perdas e limpeza',fmtMoney(t.loss),`${t.lossPct!=null?fmtPct(t.lossPct)+' das vendas':'sem vendas no período'}${t.lossQty.kg>0?' · '+fmtQty(t.lossQty.kg,1)+' kg':''}`,opDelta(t.loss,p.loss),t.lossPct>.015?'alert':''),
-    opKpi('Só limpeza',fmtMoney(t.clean),t.loss?fmtPct(t.clean/t.loss)+' das perdas':'—',opDelta(t.clean,p.clean)),
+    opKpi('Todas as perdas',fmtMoney(t.loss),`${t.lossPct!=null?fmtPct(t.lossPct)+' das vendas':'sem vendas no período'}`,opDelta(t.loss,p.loss),t.lossPct>.015?'alert':''),
+    opKpi('🔪 Limpeza',fmtMoney(t.clean),[kq('Limpeza'),t.sale?fmtPct(t.clean/t.sale)+' das vendas':''].filter(Boolean).join(' · ')||'—',opDelta(t.clean,p.clean)),
+    opKpi('🩸 Sangue/líquido',fmtMoney(t.blood),[kq('Sangue/líquido'),t.sale?fmtPct(t.blood/t.sale)+' das vendas':''].filter(Boolean).join(' · ')||'—',opDelta(t.blood,p.blood)),
+    opKpi('🗑️ Estragado/perda',fmtMoney(t.spoil),[kq('Estragado/vencido'),kq('Perda na loja')].filter(Boolean).join(' · ')||'—',opDelta(t.spoil,p.spoil)),
     opKpi('Falta no inventário',fmtMoney(t.invOut),'saída por ajuste',opDelta(t.invOut,p.invOut)),
     opKpi('Sobra no inventário',fmtMoney(t.invIn),'entrada por ajuste',opDelta(t.invIn,p.invIn)),
-    opKpi('Saldo do inventário',`${t.invNet>=0?'+':'−'} ${fmtMoney(Math.abs(t.invNet))}`,t.invNet>=0?'sobrou mais do que faltou':'faltou mais do que sobrou','',Math.abs(t.invNet)>Math.max(500,t.sale*.005)?'warn':''),
-    opKpi('Vendas no extrato',fmtMoney(t.sale),`compras ${fmtMoney(t.entry)}`,opDelta(t.sale,p.sale,false))
+    opKpi('Saldo do inventário',`${t.invNet>=0?'+':'−'} ${fmtMoney(Math.abs(t.invNet))}`,`${t.invNet>=0?'sobrou mais do que faltou':'faltou mais do que sobrou'} · vendas ${fmtMoney(t.sale)}`,'',Math.abs(t.invNet)>Math.max(500,t.sale*.005)?'warn':'')
   ].join('');
   const metricChips=Object.entries(OP_METRICS).map(([k,l])=>`<button type="button" class="pk-chip${op3.metric===k?' on':''}" aria-pressed="${op3.metric===k}" onclick="op3.metric='${k}';renderOperations()">${l}</button>`).join('');
   const evoChips=[['week','Semana'],['month','Mês']].map(([k,l])=>`<button type="button" class="pk-chip${op3.evo===k?' on':''}" aria-pressed="${op3.evo===k}" onclick="op3.evo='${k}';renderOperations()">${l}</button>`).join('');
@@ -148,7 +157,7 @@ function renderOperations(){
   body.innerHTML=`<div class="op3-kpis">${kpis}</div>
   <div class="op3-grid"><div class="card"><div class="cardhead"><h2>Evolução ${op3.evo==='month'?'mês a mês':'semana a semana'}</h2><div class="pk-row op3-inline">${evoChips}</div></div><div class="cardbody"><div class="pk-row op3-inline">${metricChips}</div>${opChart(opEvolution(range))}</div></div>
   <div class="card op3-side"><div class="cardhead"><h2>Pontos de atenção</h2><span>${insights.length} encontrado(s)</span></div><div class="cardbody">${insightHtml}</div></div></div>
-  <div class="card op3-card"><div class="cardhead"><h2>🧹 Mercadorias com mais perda e limpeza</h2><span>por valor · % sobre a venda do próprio item</span></div><div class="cardbody">${opLossTable(products)}</div></div>
+  <div class="card op3-card"><div class="cardhead"><h2>🧹 Mercadorias com mais perda</h2><span>limpeza, sangue/líquido e estragado separados · % sobre a venda do próprio item</span></div><div class="cardbody">${opLossTable(products)}</div></div>
   <div class="card op3-card"><div class="cardhead"><h2>⚖️ Maiores acertos de inventário</h2><span>entradas (sobra) e saídas (falta)</span></div><div class="cardbody">${opInvTable(products)}</div></div>
   <div class="card op3-card"><div class="cardhead"><h2>🏪 Resumo por loja</h2><span>${formatDate(range.start)} a ${formatDate(range.end)}</span></div><div class="cardbody">${opStoreTable(opRows(range,{allStores:true}))}</div></div>`;
   renderOpImports();
