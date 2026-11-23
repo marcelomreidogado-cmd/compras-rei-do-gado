@@ -15,6 +15,7 @@ Painel gerencial de compras do açougue Rei do Gado: visão geral, produtos, fam
 
 ## Publicação
 - Arquivo estático; publicado pelo GitHub Pages a partir da `main` (confirmar nas configurações do repositório se mudar).
+- **Decisão do Marcelo (23/11/2026): toda alteração que passar nos testes (`test-*.cjs` + `test-visual.cjs` e o workflow "validar" do PR) já deve ser publicada** — abrir o PR, esperar o "validar" passar e fazer o merge na `main`, sem pedir confirmação de novo.
 
 ## Fluxo de trabalho
 - Editar → `node --check` no script extraído → testar com um `CENTRAL_PATH` de teste, nunca no estado real → commit em português.
