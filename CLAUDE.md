@@ -6,7 +6,10 @@ Painel gerencial de compras do açougue Rei do Gado: visão geral, produtos, fam
 - `index.html` é o app inteiro (~90 KB, sem build). Versão em `VERSION` (formato `"2.16.0-2026-11-17"`; também na meta `rdg-version` e no texto "Versão" das telas) — atualizar ao mudar comportamento.
 - Telas (`data-page`): `overview`, `products`, `families`, `prices`, `beverages`, `sauces`, `operations`, `purchase`.
 - SheetJS 0.18.5 (cdnjs) para ler as planilhas; Firebase compat 10.12.5 (auth + **Realtime Database**).
-- Firebase projeto `motoboy-ddefa` (o mesmo do Caixa Rei do Gado e do RH). Estado central em `compras_gerencial_v2/state` (`CENTRAL_PATH`), sincronizado entre todos os computadores. Login com Firebase Auth (e-mail/senha).
+- Firebase projeto `motoboy-ddefa` (o mesmo do Caixa Rei do Gado e do RH). Login com Firebase Auth (e-mail/senha).
+- **v3 (23/11/2026): base em partes** em `compras_gerencial_v3` (`CENTRAL_PATH`), camada em `store.js`: `core` (produtos, famílias, período, parâmetros), `hiddenProducts/<p+código>`, `productFollowups`, `unitCatalog`, `previousImport`, `operations/<loja>/<AAAA-MM>` (linhas compactas `[dia,código,operação,qtd,preço,valor,doc,calculada]`), `operationProducts`, `operationNames`, `operationsMeta/imports/<id>`. **Nunca** gravar a base inteira nem usar `transaction` na raiz (causava "maxretry"). Cada ação grava só o seu caminho.
+- `compras_gerencial_v2/state` é a base antiga, **somente leitura** (backup). A v3 é criada a partir dela na primeira abertura (`migrateLegacy`). Botão "⬇ Backup da base" baixa a v3 em JSON.
+- A cópia local (`localStorage` `rdg_compras_gerencial_v3`) não guarda movimentações nem `previousImport`.
 
 ## Publicação
 - Arquivo estático; publicado pelo GitHub Pages a partir da `main` (confirmar nas configurações do repositório se mudar).
@@ -17,7 +20,9 @@ Painel gerencial de compras do açougue Rei do Gado: visão geral, produtos, fam
 - Usuário (Marcelo) trabalha em português do Brasil, no Mac, e prefere soluções simples, sem terminal.
 
 ## Módulos e visual (17/11/2026)
-- Além do `index.html`: `pcp.js` (painel PCP/operações), `prices.js` (Produtos e preços), `product-notes.js` (marcação "comprado nesta semana" e observações). Cada um carregado com `?v=` — ao mudar o arquivo, subir o `v` no `<script>` do `index.html`. Testes: `node test-pcp.cjs`, `node test-prices.cjs`, `node test-product-notes.cjs`.
+- Além do `index.html`: `store.js` (gravação/sincronização), `extrato.js` (leitor do PDF do extrato, também roda no Node), `operacoes.js` (aba Operações), `prices.js` (Produtos e preços), `product-notes.js` (marcação "comprado nesta semana" e observações). Cada um carregado com `?v=` — ao mudar o arquivo, subir o `v` no `<script>` do `index.html`. Testes: `node test-extrato.cjs`, `node test-prices.cjs`, `node test-product-notes.cjs`, `node test-visual.cjs`.
+- Extrato: um PDF pode ter as 3 lojas; a loja é lida em cada página. A importação confere a soma das quantidades com o "Resumo por operação" do próprio PDF e substitui só as datas lidas de cada loja. Cores das lojas (validadas para daltonismo): Coronel #2563eb, Correas #d97706, Bingen #0d9488.
+- Não commitar extratos reais nem dados reais (repositório público): testes só com dados fictícios.
 - Visual: classes no fim do `<style>` (`.pn-*` marcação compacta em uma linha; `.pk-row/.pk-chip` filtros de preço). Evitar estilos inline grandes dentro das tabelas — cada produto deve caber em ~2 linhas.
 
 ## Padrão visual (obrigatório em toda mudança)

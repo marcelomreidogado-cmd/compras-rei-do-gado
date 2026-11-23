@@ -1,7 +1,8 @@
-name: Validar painel de operações
+name: Validar Compras Gerenciais
 on:
   push:
-    branches: [corrigir-operacoes-218]
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,10 +16,10 @@ jobs:
           node-version: 22
       - run: npm install --no-save playwright@1.58.2
       - run: npx playwright install --with-deps chromium
-      - run: node test-pcp.cjs && node test-prices.cjs && node test-product-notes.cjs
+      - run: node test-extrato.cjs && node test-prices.cjs && node test-product-notes.cjs
       - run: FOTOS=visual-after node test-visual.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: revisao-visual-operacoes
+          name: revisao-visual
           path: visual-after
