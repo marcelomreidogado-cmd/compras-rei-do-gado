@@ -36,6 +36,7 @@ function expandOperations(tree,names,opNames){
     const[day,code,op,qty,price,value,doc,derived]=r,operation=OPERATION_NAMES[op]||opNames?.[op]||`OPERAÇÃO ${op}`;
     rows.push({date:`${month}-${String(day).padStart(2,'0')}`,store,productCode:code,productName:names?.[code]||app.products.find(p=>p.codigo_produto===code)?.produto||code,operationCode:op,operation,category:operationCategory(op,opNames?.[op]||operation),quantity:+qty||0,unitPrice:+price||0,movementValue:+value||0,document:doc||'',qtyDerived:!!derived});
   }
+  operationUnitCache.clear();for(const r of rows)if(operationMeasureUnit(r)==='un'&&Math.abs(r.quantity%1)>1e-9){r.quantity=Math.round(r.quantity)||Math.sign(r.quantity);r.unitRounded=true;}
   return rows.sort((a,b)=>a.date.localeCompare(b.date)||a.productName.localeCompare(b.productName,'pt-BR'));
 }
 async function loadOperations(force=false){
@@ -99,7 +100,7 @@ async function migrateLegacy(){
 
 /* ---------- carregar e acompanhar ---------- */
 const NODE_APPLY={
-  core(v){if(!v)return;app.products=Array.isArray(v.products)?v.products:[];app.meta={...clone(INITIAL_DATA.meta),...(v.meta||{})};app.familyMap=v.familyMap||{};app.period={start:'',end:'',...(v.period||{})};app.settings={coverageDays:7,safetyDays:2,roundMode:'precise',...(v.settings||{})};app.previousImportAt=v.previousImportAt||'';app.syncUpdatedAt=v.syncUpdatedAt||'';},
+  core(v){if(!v)return;app.settings={coverageDays:7,safetyDays:2,roundMode:'precise',...(v.settings||{})};app.products=normalizeUnitQuantities(Array.isArray(v.products)?v.products:[]);operationUnitCache.clear();app.meta={...clone(INITIAL_DATA.meta),...(v.meta||{})};app.familyMap=v.familyMap||{};app.period={start:'',end:'',...(v.period||{})};app.settings={coverageDays:7,safetyDays:2,roundMode:'precise',...(v.settings||{})};app.previousImportAt=v.previousImportAt||'';app.syncUpdatedAt=v.syncUpdatedAt||'';},
   hiddenProducts(v){app.hiddenProducts=Object.values(v||{}).map(String);},
   productFollowups(v){app.productFollowups=v||{};},
   unitCatalog(v){app.unitCatalog=v||{};operationUnitCache.clear();},
