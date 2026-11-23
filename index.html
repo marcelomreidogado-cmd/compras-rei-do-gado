@@ -248,6 +248,13 @@ td{font-size:13px}
 @media(max-width:1200px){.op3-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.op3-grid{grid-template-columns:1fr}}
 @media(max-width:820px){.op3-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.op3-kpi strong{font-size:18px}.op3-filters{padding:10px}.op3-filters .pk-row{width:100%}.operation-import{flex-direction:column;align-items:stretch}.operation-import .op3-actions{justify-content:flex-start}
 .op3-tbl .op3-name{position:sticky;left:0;background:#fff;z-index:1;min-width:150px}.op3-rank{display:none}.op3-delta{white-space:normal}}
+/* v3: Produtos e preços (pr3-*) */
+.pr3-tile{text-align:left;cursor:pointer;font:inherit;color:inherit}.pr3-tile:hover{border-color:#98a2b3}.pr3-tile.on{border-color:var(--brand);box-shadow:0 0 0 2px rgba(157,28,32,.15)}
+.pr3-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:-4px 0 10px}.pr3-target{font-size:12px;color:#475467;display:flex;align-items:center;gap:6px}.pr3-target input{width:58px;border:1px solid #d0d5dd;border-radius:8px;padding:4px 6px;text-align:right}
+.price-table .pr3-row{cursor:pointer}.price-table .pr3-row:hover td{background:#f9fafb}.pr3-name{min-width:210px}.pr3-name b{display:block;font-size:13px}.pr3-name small{color:#667085;font-size:11px}
+.pr3-m{display:inline-flex;align-items:center;gap:5px;min-width:84px;justify-content:flex-end}.pr3-m i{display:block;height:6px;border-radius:3px;max-width:34px;background:#12b76a}.pr3-m.low i{background:#f79009}.pr3-m.bad i{background:#f04438}.pr3-m b{font-variant-numeric:tabular-nums;min-width:44px;text-align:right}.pr3-m.bad b{color:var(--bad)}
+.pr3-neg{color:var(--bad)}.pr3-mini{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:820px){.price-table .pr3-name{position:sticky;left:0;background:#fff;z-index:1;min-width:160px}.pr3-mini{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -308,13 +315,13 @@ td{font-size:13px}
   </section>
 
   <section class="page" id="page-prices">
-    <div class="pagehead"><div><h1>💰 Produtos e preços</h1><p>Comparação de custo, preço de venda e margem nas três lojas, com identificação automática das divergências.</p></div><div class="version" id="priceCountLabel"></div></div>
+    <div class="pagehead"><div><h1>💰 Produtos e preços</h1><p>Margem, resultado e divergências de custo e preço nas três lojas. Clique num indicador para filtrar e num produto para ver o detalhe.</p></div><div class="version" id="priceCountLabel"></div></div>
     <div class="picker-grid">
       <div class="family-picker"><div class="family-picker-head"><b>🔎 Visualização</b><span>ativos, divergências ou ocultos</span></div><div class="family-chips" id="priceModeBalloons"></div></div>
       <div class="family-picker"><div class="family-picker-head"><b>🏷️ Famílias no relatório</b><span>selecione uma ou várias</span></div><div class="family-chips" id="priceFamilyBalloons"></div></div>
     </div>
     <div class="filters"><div class="search"><input id="priceSearch" type="search" aria-label="Buscar produto ou código nos preços" placeholder="Buscar produto ou código…"></div></div>
-    <div class="pk-row" id="priceKpis" role="group" aria-label="Filtrar por situação do preço"></div>
+    <div id="priceKpis" role="group" aria-label="Indicadores de preço (clique para filtrar)"></div>
     <div class="tablewrap"><table class="quick-products price-table"><thead id="priceHead"></thead><tbody id="priceBody"></tbody></table></div>
   </section>
 

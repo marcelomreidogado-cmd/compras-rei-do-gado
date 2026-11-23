@@ -10,7 +10,7 @@ function pcpMonday(date){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getU
 function pcpQty(n,unit){if(unit==='unknown')return fmtQty(n,0);return new Intl.NumberFormat('pt-BR',{minimumFractionDigits:unit==='kg'?3:0,maximumFractionDigits:unit==='kg'?3:0}).format(num(n))+(unit==='kg'?' kg':' un');}
 const opDay=(date,offset)=>{const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+offset);return d.toISOString().slice(0,10);};
 const opDaysBetween=(a,b)=>Math.round((new Date(b+'T12:00:00Z')-new Date(a+'T12:00:00Z'))/864e5)+1;
-const opMonthName=m=>new Date(m+'-15T12:00:00Z').toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}).replace('.','');
+const opMonthName=m=>['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][Number(m.slice(5,7))-1]+'/'+m.slice(2,4);
 const opShort=d=>d?d.slice(8,10)+'/'+d.slice(5,7):'—';
 
 /* ---------- período ---------- */
