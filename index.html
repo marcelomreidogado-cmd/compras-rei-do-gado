@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="rdg-version" content="2.18.0-2026-11-19">
+<meta name="rdg-version" content="3.0.0-2026-11-23">
 <title>Compras Gerenciais · Rei do Gado</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" onerror="window.__xlsxLoadError=true"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" onerror="window.__pdfLoadError=true"></script>
@@ -20,7 +20,7 @@
 .top{position:sticky;top:0;z-index:30;background:rgba(17,24,39,.97);backdrop-filter:blur(12px);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.08)}.topin{max-width:1540px;margin:auto;min-height:68px;padding:9px 22px;display:flex;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:11px;min-width:218px}.mark{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,var(--brand2),#791419);font-weight:900;letter-spacing:-1px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}.brand b{display:block;font-size:15px}.brand small{display:block;color:#aeb7c6;font-size:11px;margin-top:1px}.nav{display:flex;align-items:center;gap:4px;flex:1;overflow:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.navbtn{white-space:nowrap;border:0;color:#bbc3d0;background:transparent;border-radius:9px;padding:10px 13px;font-weight:650}.navbtn:hover{background:#263143;color:#fff}.navbtn.on{background:#fff;color:#202939}.importbtn{border:0;border-radius:10px;background:#fff;color:#1d2939;font-weight:750;padding:10px 14px;display:flex;gap:8px;align-items:center;white-space:nowrap}.importbtn:hover{background:#f2f4f7}.syncpill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#344054;color:#d0d5dd;padding:6px 9px;font-size:11px;font-weight:750;white-space:nowrap}.syncpill.ok{background:#064e3b;color:#d1fae5}.syncpill.busy{background:#78350f;color:#fef3c7}.syncpill.error{background:#7f1d1d;color:#fee2e2}.logoutbtn{border:1px solid #475467;background:transparent;color:#d0d5dd;border-radius:9px;padding:9px 10px;font-size:11px;font-weight:750}.logoutbtn:hover{background:#263143;color:#fff}.auth-email{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#aeb7c6;font-size:11px}
 .main{max-width:1540px;margin:auto;padding:24px 22px 40px}.page{display:none}.page.on{display:block}.pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px}.pagehead h1{margin:0;font-size:25px;letter-spacing:-.5px}.pagehead p{margin:4px 0 0;color:var(--muted)}.version{color:#667085;font-size:11px;padding-top:8px}.sourcebar{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;box-shadow:0 2px 8px rgba(16,24,40,.035)}.sourceitem{display:flex;gap:7px;align-items:center;color:#475467}.sourceitem b{color:#1d2939}.sourcebar .grow{flex:1}.datefield{display:flex;gap:7px;align-items:center}.datefield input{border:1px solid #d0d5dd;background:#fff;border-radius:8px;padding:7px 9px;color:#344054}.btn{border:1px solid #d0d5dd;background:#fff;color:#344054;border-radius:9px;padding:8px 12px;font-weight:700}.btn:hover{background:#f9fafb}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn.primary:hover{background:#81161a}.btn.ghost{border-color:transparent;background:#f2f4f7}.btn.sm{padding:5px 9px;font-size:12px}
 .filters{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px}.search{position:relative;min-width:250px;flex:1;max-width:440px}.search input{width:100%;padding:10px 12px 10px 36px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;outline:none}.search:before{content:"⌕";position:absolute;left:12px;top:7px;font-size:20px;color:#667085}.control{border:1px solid #d0d5dd;background:#fff;border-radius:10px;padding:9px 11px;outline:none;color:#344054}.filters input:focus,.control:focus,.datefield input:focus{border-color:#84adff;box-shadow:0 0 0 3px #dbe8ff}
-.picker-grid{display:grid;grid-template-columns:minmax(250px,.62fr) minmax(420px,1.38fr);gap:12px;margin-bottom:14px}.family-picker{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:13px;box-shadow:0 2px 8px rgba(16,24,40,.035)}.picker-grid .family-picker{margin-bottom:0}.family-picker-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px}.family-picker-head b{font-size:12px}.family-picker-head span{font-size:11px;color:#667085}.family-chips{display:flex;gap:7px;flex-wrap:wrap}.family-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid #d0d5dd;background:#fff;color:#475467;border-radius:999px;padding:8px 12px;font-size:11px;font-weight:750;transition:.15s}.family-chip:hover{border-color:var(--chip);color:var(--chip);background:var(--chip-bg)}.family-chip.on{border-color:var(--chip);color:var(--chip);background:var(--chip-bg);box-shadow:inset 0 0 0 1px var(--chip-ring)}.family-chip .ficon{font-size:15px;line-height:1}.family-chip .tick{display:none;font-size:11px}.family-chip.on .tick{display:inline}.round-chips .family-chip{padding:8px 10px;min-height:38px}.quick-products{min-width:1180px}.quick-products thead tr.group-row th{top:0;z-index:6;text-align:center;height:35px}.quick-products thead tr.metric-row th{top:35px;z-index:5}.quick-products thead th[rowspan="2"]{top:0;z-index:7;vertical-align:middle}.store-c1{background:#ecfdff!important;color:#0e7490!important}.store-c2{background:#eef2ff!important;color:#4338ca!important}.store-c3{background:#fdf4ff!important;color:#a21caf!important}.store-total{background:#f2f4f7!important;color:#344054!important}.store-start{border-left:2px solid #d0d5dd!important}.quick-products tbody td.store-c1,.quick-products tbody td.store-c2,.quick-products tbody td.store-c3,.quick-products tbody td.store-total{color:#344054}.quick-products tbody tr:hover td{filter:brightness(.985)}
+.picker-grid{display:grid;grid-template-columns:minmax(250px,.62fr) minmax(420px,1.38fr);gap:12px;margin-bottom:14px}.family-picker{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:13px;box-shadow:0 2px 8px rgba(16,24,40,.035)}.picker-grid .family-picker{margin-bottom:0}.family-picker-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px}.family-picker-head b{font-size:12px}.family-picker-head span{font-size:11px;color:#667085}.family-chips{display:flex;gap:7px;flex-wrap:wrap}.family-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid #d0d5dd;background:#fff;color:#475467;border-radius:999px;padding:8px 12px;font-size:11px;font-weight:750;transition:.15s}.family-chip:hover{border-color:var(--chip);color:var(--chip);background:var(--chip-bg)}.family-chip.on{border-color:var(--chip);color:var(--chip);background:var(--chip-bg);box-shadow:inset 0 0 0 1px var(--chip-ring)}.family-chip .ficon{font-size:15px;line-height:1}.family-chip .tick{display:none;font-size:11px}.family-chip.on .tick{display:inline}.round-chips .family-chip{padding:8px 10px;min-height:38px}.quick-products{min-width:1180px}.quick-products thead tr.group-row th{top:0;z-index:6;text-align:center;height:35px}.quick-products thead tr.metric-row th{top:35px;z-index:5}.quick-products thead th[rowspan="2"]{top:0;z-index:7;vertical-align:middle}.store-c1{background:#eff6ff!important;color:#1d4ed8!important}.store-c2{background:#fffbeb!important;color:#b45309!important}.store-c3{background:#f0fdfa!important;color:#0f766e!important}.store-total{background:#f2f4f7!important;color:#344054!important}.store-start{border-left:2px solid #d0d5dd!important}.quick-products tbody td.store-c1,.quick-products tbody td.store-c2,.quick-products tbody td.store-c3,.quick-products tbody td.store-total{color:#344054}.quick-products tbody tr:hover td{filter:brightness(.985)}
 .store-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}.store-summary{background:#fff;border:1px solid var(--store-line);border-top:4px solid var(--store);border-radius:13px;padding:13px 15px;box-shadow:0 2px 8px rgba(16,24,40,.035)}.store-summary h2{font-size:13px;margin:0 0 9px;color:var(--store)}.store-summary-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.store-summary-metrics small{display:block;color:#667085;font-size:11px;text-transform:uppercase;font-weight:750}.store-summary-metrics b{display:block;margin-top:2px;font-size:13px}.store-summary .store-alert{margin-top:8px;font-size:11px;color:#667085}
 .price-table{min-width:1540px}.price-table td{font-variant-numeric:tabular-nums}.price-status{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;white-space:nowrap}.price-equal{background:#d1fadf;color:#087a55}.price-diff{background:#fee4e2;color:#b42318}.price-partial{background:#fef0c7;color:#b54708}.price-missing{background:#f4ebff;color:#6941c6}.money-cell{display:inline-block;font-weight:720;border-radius:6px;padding:2px 4px}.money-diff{background:#fff1f0;color:#b42318}.money-missing{background:#f4ebff;color:#6941c6}.money-zero{color:#667085}.margin-cell{font-weight:800}.visibility-btn{display:inline-flex;align-items:center;gap:5px;border:1px solid #d0d5dd;background:#fff;border-radius:999px;padding:5px 8px;color:#475467;font-size:11px;font-weight:800;white-space:nowrap}.visibility-btn:hover{border-color:#667085;background:#f8fafc}.visibility-btn.restore{border-color:#bdb4fe;background:#f4f3ff;color:#5925dc}.visibility-btn.hide-item{border-color:#fecdca;background:#fff7f6;color:#b42318}
 .kpis{display:grid;grid-template-columns:repeat(5,minmax(145px,1fr));gap:12px;margin-bottom:18px}.kpi{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;min-height:101px;box-shadow:0 2px 9px rgba(16,24,40,.035)}.kpi .label{color:var(--muted);font-size:12px;font-weight:650}.kpi .value{font-size:24px;line-height:1.1;font-weight:820;letter-spacing:-.7px;margin-top:9px}.kpi .sub{font-size:11px;color:#667085;margin-top:7px}.kpi.danger{border-color:#fecdca;background:#fff8f7}.kpi.danger .value{color:var(--bad)}.kpi.success{border-color:#abefc6;background:#f6fef9}.kpi.success .value{color:var(--good)}
@@ -148,7 +148,7 @@ td{font-size:13px}
 .sdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px;flex:0 0 auto}
 .family-chip .ficon .sdot{margin:0;background:var(--chip)}
 .store-summary .sdot{background:var(--store)}
-.family-store.c1 .sdot{background:#0e7490}.family-store.c2 .sdot{background:#4338ca}.family-store.c3 .sdot{background:#a21caf}
+.family-store.c1 .sdot{background:#2563eb}.family-store.c2 .sdot{background:#d97706}.family-store.c3 .sdot{background:#0d9488}
 .importbtn{background:transparent;border:1px solid #475467;color:#fff;box-shadow:none}
 .importbtn:hover{background:#263143}
 .importbtn .ib-short{display:none}
@@ -209,8 +209,45 @@ td{font-size:13px}
 @media(max-width:460px){.brand b,.brand small{display:none}.brand{flex:0 0 auto}.topin{justify-content:space-between}}
 @media(max-width:520px){.rankrow{grid-template-columns:20px minmax(0,1fr) auto}.rankrow .bar{display:none}}
 
-.pcp-section{margin:16px 0}.pcp-section .family-chips{margin-bottom:10px}.pcp-section .kpis{margin:0}.pcp-periods{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0}.pcp-hidden{display:none!important}.pcp-status{display:flex;gap:8px;flex-wrap:wrap}.pcp-name{min-width:180px;max-width:260px}.pcp-name .btn{white-space:normal;text-align:left;line-height:1.3}.pcp-name small{display:block;color:#667085}.pcp-section th,.pcp-section td{font-variant-numeric:tabular-nums}.pcp-section td:not(:first-child){white-space:nowrap}.pcp-section .tablewrap td:first-child,.pcp-section .tablewrap th:first-child{position:sticky;left:0;background:white;z-index:1}@media(max-width:600px){.pcp-section .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.pcp-section .kpi .value{font-size:22px}.pcp-name{min-width:140px;max-width:160px}}
-.pcp-mobile-cards{display:none}.pcp-product-card{display:block;width:100%;background:#fff;border:1px solid var(--line,#e4e7ec);border-radius:14px;padding:14px;text-align:left;color:inherit;font:inherit}.pcp-product-card>strong{display:block;margin-bottom:12px}.pcp-card-values{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pcp-card-values span{font-size:11px;color:#667085}.pcp-card-values b{display:block;font-size:18px;color:#101828}.pcp-card-values small{display:block}.pcp-product-card:hover{border-color:#b42318}@media(max-width:650px){.pcp-mobile-cards{display:grid;gap:10px}.pcp-mobile-cards+.tablewrap{display:none}}
+/* v3: aba Operações (op3-*) */
+.operation-import .op3-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.op3-filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:14px}
+.op3-filters .pk-row,.op3-inline{margin:0}.op3-filters .pk-chip,.op3-inline .pk-chip{padding:6px 12px}.op3-filters .search{flex:1 1 200px;min-width:180px}
+.op3-custom{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12px}.op3-custom input{border:1px solid #d0d5dd;border-radius:8px;padding:5px 7px}
+.op3-range{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.op3-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.op3-kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.op3-kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:13px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.op3-kpi.alert{border-color:#fdba74;background:linear-gradient(160deg,#fff7ed,#fff)}.op3-kpi.warn{border-color:#fde68a}
+.op3-kl{color:var(--muted);font-size:12px;font-weight:700}.op3-kpi strong{font-size:22px;letter-spacing:-.4px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.op3-ks{color:#475467;font-size:12px}.op3-delta{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.op3-delta.bad{color:var(--bad)}.op3-delta.good{color:var(--good)}
+.op3-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:14px;margin-bottom:14px}
+.op3-grid .cardhead{gap:10px;flex-wrap:wrap}.op3-grid .cardbody .pk-row{margin-bottom:10px}
+.op3-chartwrap{width:100%}.op3-chart{width:100%;height:auto;display:block}
+.op3-grid line.op3-grid,.op3-chart .op3-grid{stroke:#eef0f3;stroke-width:1}.op3-chart .op3-base{stroke:#98a2b3;stroke-width:1}
+.op3-chart text{font-family:inherit}.op3-axis{fill:#667085;font-size:11px}.op3-val{fill:#344054;font-size:11px;font-weight:700}.op3-pct{fill:#667085;font-size:10.5px}
+.op3-chart rect[data-tip]:not(.op3-hit):hover{opacity:.85}
+.op3-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:#344054;margin-bottom:4px}.op3-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.op3-table summary,.op3-imports summary{cursor:pointer;color:var(--muted);font-size:12px;margin-top:6px}
+.op3-imports summary{list-style:none;display:flex}.op3-imports summary::-webkit-details-marker{display:none}
+.op3-side .cardbody{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto}
+.op3-ins{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:8px;align-items:start;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:#fcfcfd}
+.op3-ins.critical{border-color:#fecdca;background:#fffbfa}.op3-ins.warning{border-color:#fedf89;background:#fffcf5}
+.op3-ins b{display:block;font-size:13px;line-height:1.3}.op3-ins small{display:block;color:#475467;font-size:12px;margin-top:2px}.op3-ins-ic{font-size:16px;line-height:1.2}
+.op3-link{background:none;border:0;padding:0;color:var(--blue);font-weight:700;text-align:left;cursor:pointer;white-space:nowrap}.op3-link:hover{text-decoration:underline}
+.op3-card{margin-bottom:14px}.op3-tw{overflow-x:auto}
+.op3-tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.op3-tbl th,.op3-tbl td{padding:7px 9px;border-bottom:1px solid #eef0f3;text-align:left;font-size:13px;vertical-align:middle}
+.op3-tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:#667085;white-space:nowrap}.op3-tbl .num{text-align:right;white-space:nowrap}
+.op3-tbl td small{display:block;color:#667085;font-size:11px}.op3-name{min-width:180px}.op3-name .op3-link{white-space:normal}
+.op3-rank{color:#667085;width:28px}.op3-total td{background:#f9fafb;font-weight:700}.op3-file{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.op3-net{font-weight:700;white-space:nowrap}.op3-net.up{color:var(--good)}.op3-net.down{color:var(--bad)}
+.op3-more{margin-top:10px}.op3-muted{color:var(--muted);font-size:12px}
+.op3-tip{position:fixed;z-index:80;pointer-events:none;background:#101828;color:#fff;font-size:12px;line-height:1.45;padding:7px 9px;border-radius:8px;white-space:pre-line;opacity:0;transition:opacity .1s;max-width:280px}.op3-tip.on{opacity:1}
+.op3-modal{width:min(900px,calc(100vw - 24px))}.op3-sum{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-bottom:12px}
+.op3-sum>div{border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:3px}.op3-sum b{font-size:12.5px}.op3-sum span{color:#475467;font-size:12px;font-variant-numeric:tabular-nums}
+@media(max-width:1200px){.op3-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.op3-grid{grid-template-columns:1fr}}
+@media(max-width:820px){.op3-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.op3-kpi strong{font-size:18px}.op3-filters{padding:10px}.op3-filters .pk-row{width:100%}.operation-import{flex-direction:column;align-items:stretch}.operation-import .op3-actions{justify-content:flex-start}
+.op3-tbl .op3-name{position:sticky;left:0;background:#fff;z-index:1;min-width:150px}.op3-rank{display:none}.op3-delta{white-space:normal}}
 </style>
 </head>
 <body>
@@ -294,27 +331,22 @@ td{font-size:13px}
   </section>
 
   <section class="page" id="page-operations">
-    <div class="pagehead"><div><h1>⚙️ Operações de estoque</h1><p>Controle de limpeza, sangue, líquidos, perdas, inventário, compras, transferências e demais movimentações.</p></div><div class="version" id="operationCountLabel"></div></div>
+    <div class="pagehead"><div><h1>⚙️ Operações de estoque</h1><p>Perdas, limpeza e acertos de inventário das 3 lojas, a partir do extrato de produtos do Alterdata.</p></div><div class="version" id="operationCountLabel"></div></div>
     <div class="operation-import">
-      <div><b>Extrato de operações (PDF do Alterdata)</b><span id="operationSourceLabel">Nenhum extrato de operações importado.</span></div>
-      <button class="btn primary" id="operationImportButton" type="button">⇧ Importar extrato PDF</button>
-    </div>
-    <div class="purchasebox">
-      <div class="field"><label for="operationStart">Início do extrato</label><input id="operationStart" type="date"></div>
-      <div class="field"><label for="operationEnd">Fim do extrato</label><input id="operationEnd" type="date"></div>
-      <div class="search"><input id="operationSearch" type="search" aria-label="Buscar produto, código ou operação" aria-label="Buscar produto ou família" placeholder="Buscar produto, código ou família…"></div>
-      <label class="check"><input id="operationIncludeSales" type="checkbox"> Mostrar vendas como referência</label>
-    </div>
-    <div class="picker-grid">
-      <div class="family-picker"><div class="family-picker-head"><b>🏪 Loja</b><span>todas ou uma loja</span></div><div class="family-chips" id="operationStoreBalloons"></div></div>
-      <div class="family-picker"><div class="family-picker-head"><b>🔎 Tipo de movimentação</b><span>todas ou uma categoria</span></div><div class="family-chips" id="operationCategoryBalloons"></div></div>
+      <div><b>Extrato de produtos (PDF do Alterdata)</b><span id="operationSourceLabel">Nenhum extrato importado ainda.</span></div>
+      <div class="op3-actions"><button class="btn sm" type="button" onclick="document.getElementById('operationUnitFile').click()" title="Relatório com Código e Unidade (kg/un)">Unidades kg/un</button><button class="btn sm" type="button" onclick="downloadBackup()">⬇ Backup da base</button><button class="btn primary" id="operationImportButton" type="button">⇧ Importar extrato PDF</button></div>
     </div>
     <input id="operationUnitFile" type="file" accept=".csv,.xlsx,.xls" hidden onchange="importOperationUnits(this.files[0]);this.value=''">
-    <div id="pcpDashboard"></div>
-    <div class="pcp-days">
-      <div class="card"><div class="cardhead"><h2>Movimentações por dia</h2><span>clique em um dia para detalhar</span></div><div class="cardbody operation-list" id="operationDays"></div></div>
+    <div class="op3-filters">
+      <div class="pk-row" id="op3Periods" role="group" aria-label="Período"></div>
+      <div class="op3-custom hide" id="op3Custom"><label>De <input id="op3Start" type="date"></label><label>até <input id="op3End" type="date"></label></div>
+      <div class="pk-row" id="op3Stores" role="group" aria-label="Loja"></div>
+      <div class="search"><input id="op3Search" type="search" aria-label="Buscar produto ou código" placeholder="Buscar produto ou código…"></div>
+      <span class="op3-range" id="op3RangeLabel"></span>
     </div>
-    <div class="card" style="margin-bottom:16px"><div class="cardhead"><h2 id="operationDetailTitle">Detalhamento das operações</h2><span id="operationDetailCount"></span></div><div class="cardbody"><div class="detail-context" id="operationDetailContext"></div><div class="movement-totals" id="operationDetailTotals"></div><div class="family-picker detail-filter"><div class="family-picker-head"><b>⚙️ Filtrar movimentações</b><span>todas ou uma operação específica</span></div><div class="family-chips" id="operationMovementBalloons"></div></div><div class="tablewrap"><table class="operation-table"><thead><tr><th>Data</th><th>Loja</th><th>Código</th><th>Produto</th><th>Categoria</th><th>Operação</th><th class="num">Quantidade</th><th class="num">Vl. unitário</th><th class="num">Vl. movimento</th><th>Documento</th></tr></thead><tbody id="operationBody"></tbody></table></div></div></div>
+    <div id="op3Body"></div>
+    <details class="card op3-card op3-imports"><summary class="cardhead"><h2>📄 Extratos importados</h2><span>conferência e remoção</span></summary><div class="cardbody" id="op3Imports"></div></details>
+    <div class="op3-tip" id="op3Tip" role="tooltip"></div>
   </section>
 
   <section class="page" id="page-purchase">
@@ -347,7 +379,7 @@ td{font-size:13px}
     <div class="familygrid" id="familyGrid"></div>
   </section>
 
-  <div class="footer">Compras Gerenciais · Rei do Gado · Versão 2.18 · 18/11/2026</div>
+  <div class="footer">Compras Gerenciais · Rei do Gado · Versão 3.0 · 23/11/2026</div>
 </main>
 
 <div class="auth-screen open" id="authScreen">
@@ -374,22 +406,23 @@ td{font-size:13px}
   <div class="modalbody"><p id="importModalLead">Esta planilha vai substituir a base das 3 lojas em todos os computadores.</p><div class="import-preview" id="importPreview"></div><div class="hint">A base atual fica guardada. Se algo estiver errado, use “Desfazer última importação” na barra de cima.</div></div>
   <div class="modalfoot"><button class="btn" id="importCancel" type="button">Cancelar</button><button class="btn primary" id="importConfirm" type="button">Substituir base</button></div>
 </div></div>
+<div class="modalback" id="op3Modal" role="dialog" aria-modal="true"><div class="modal op3-modal"></div></div>
 <div class="toast" id="toast"><b id="toastTitle"></b><span id="toastText"></span></div>
 
-<script src="pcp.js?v=2.18"></script>
-<script src="operations-dashboard.js?v=2.18"></script>
-<script src="prices.js?v=2.17"></script>
+<script src="store.js?v=3.0"></script>
+<script src="extrato.js?v=3.0"></script>
+<script src="operacoes.js?v=3.0"></script>
+<script src="prices.js?v=3.0"></script>
 <script src="product-notes.js?v=2.17"></script>
 <script>
 "use strict";
-const VERSION="2.18.0-2026-11-19";
+const VERSION="3.0.0-2026-11-23";
 const INITIAL_DATA={"products":[],"operations":[],"period":{"start":"","end":""},"meta":{"sourceFile":"","validRows":0,"ignoredRows":0,"productCount":0,"familyCount":0,"familyConflicts":0,"inferredFamilies":0,"newProducts":0,"importedAt":""},"operationsMeta":{"imports":[],"importedAt":"","importedBy":""}};
 const STORES={"001":"Coronel","002":"Correas","003":"Bingen"};
 const STORE_IDS=Object.keys(STORES);
-const STORE_COLORS={"001":"#0e7490","002":"#4338ca","003":"#a21caf"};
+const STORE_COLORS={"001":"#2563eb","002":"#d97706","003":"#0d9488"};
 const SPECIAL_FAMILIES=new Set(["BEBIDAS","MOLHOS COM SAIDA"]);
-const STATE_KEY="rdg_compras_gerencial_v2";
-const CENTRAL_PATH="compras_gerencial_v2/state";
+const CENTRAL_PATH="compras_gerencial_v3";
 const FIREBASE_CONFIG={
   apiKey:"AIzaSyDoYFoKnVjtcib0V4yN1Qzvk2B7QrNgiuM",
   authDomain:"motoboy-ddefa.firebaseapp.com",
@@ -411,11 +444,6 @@ let selectedOverviewStores=new Set((loadPrefs().overviewStores||[]).filter(store
 let selectedOverviewFamilies=new Set();
 let selectedPurchaseStores=new Set((loadPrefs().purchaseStores||[]).filter(store=>STORE_IDS.includes(store)));
 let selectedPurchaseFamilies=new Set();
-let selectedOperationCategories=new Set();
-let selectedOperationDate="";
-let selectedOperationStore="all";
-let selectedOperationProduct="";
-let selectedMovementCode="all";
 let operationUnitCache=new Map();
 let editingCode="";
 let editingFamilySelection="";
@@ -424,11 +452,7 @@ let toastTimer=null;
 let fbAuth=null;
 let fbDB=null;
 let currentUser=null;
-let remoteRef=null;
-let remoteHandler=null;
 let centralSaveTimer=null;
-let applyingRemote=false;
-let lastRemoteFingerprint="";
 let syncReady=false;
 
 function clone(value){return JSON.parse(JSON.stringify(value));}
@@ -437,14 +461,6 @@ function normalizeState(value){
   const products=Array.isArray(source.products)?source.products:[];
   return{...source,version:VERSION,products,operations:Array.isArray(source.operations)?source.operations:[],period:{start:"",end:"",...(source.period||{})},meta:{...clone(INITIAL_DATA.meta),...(source.meta||{})},operationsMeta:{...clone(INITIAL_DATA.operationsMeta),...(source.operationsMeta||{}),imports:Array.isArray(source.operationsMeta?.imports)?source.operationsMeta.imports:[]},hiddenProducts:Array.isArray(source.hiddenProducts)?source.hiddenProducts:[],familyMap:source.familyMap||Object.fromEntries(products.map(product=>[product.codigo_produto,product.familia])),settings:{coverageDays:7,safetyDays:2,roundMode:"precise",...(source.settings||{})}};
 }
-function loadState(){
-  try{
-    const saved=JSON.parse(localStorage.getItem(STATE_KEY)||"null");
-    if(saved&&Array.isArray(saved.products))return normalizeState(saved);
-  }catch(error){}
-  return normalizeState(INITIAL_DATA);
-}
-function saveState(){try{localStorage.setItem(STATE_KEY,JSON.stringify(app));}catch(error){showToast("Não foi possível salvar localmente",error.message,"error");}}
 function firebaseErrorMessage(error){
   const raw=`${error?.code||""} ${error?.message||error||""}`.toLowerCase();
   if(/user-not-found|wrong-password|invalid-login-credentials|invalid-credential/.test(raw))return"E-mail ou senha inválidos.";
@@ -454,43 +470,11 @@ function firebaseErrorMessage(error){
   if(/network|failed|offline/.test(raw))return"Falha de conexão. Verifique a internet e tente novamente.";
   return error?.message||String(error||"Erro desconhecido");
 }
-function stateFingerprint(value){return`${value?.meta?.importedAt||""}|${value?.operationsMeta?.importedAt||""}|${value?.syncUpdatedAt||""}|${value?.products?.length||0}|${value?.operations?.length||0}|${JSON.stringify(value?.productFollowups||{})}|${JSON.stringify(value?.unitCatalog||{})}`;}
 function setSyncStatus(text,type=""){const status=document.getElementById("syncStatus"),label=document.getElementById("centralSaveLabel");if(status){status.textContent=`● ${text}`;status.className=`syncpill ${type}`.trim();}if(label)label.textContent=type==="ok"?"Sincronizado entre os computadores":type==="error"?"Falha na sincronização — cópia local preservada":text;}
 function setAuthMessage(text,type="error"){const target=document.getElementById("authMessage");if(!target)return;target.textContent=text||"";target.style.color=type==="ok"?"#087a55":"#b42318";}
 function showAuthScreen(){document.getElementById("authScreen")?.classList.add("open");setSyncStatus("Aguardando login","");}
 function hideAuthScreen(){document.getElementById("authScreen")?.classList.remove("open");}
 function formatImportMoment(value){if(!value)return"Nenhuma importação compartilhada";const date=new Date(value);if(Number.isNaN(date.getTime()))return"Data inválida";return new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(date).replace(","," às");}
-function applyRemoteState(remote,notify=true){
-  if(!remote||!Array.isArray(remote.products))return false;
-  applyingRemote=true;
-  try{app=normalizeState(remote);operationUnitCache.clear();saveState();setFamilyOptions();updateSourceBar();renderAll();lastRemoteFingerprint=stateFingerprint(app);if(notify)showToast("Base atualizada",`Importação de ${formatImportMoment(app.meta.importedAt)} carregada automaticamente.`);return true;}
-  finally{applyingRemote=false;}
-}
-async function loadCentralState(){
-  if(!fbDB||!currentUser)throw new Error("Usuário não autenticado.");
-  setSyncStatus("Carregando base central","busy");
-  const snapshot=await fbDB.ref(CENTRAL_PATH).once("value"),remote=snapshot.val();
-  if(remote&&Array.isArray(remote.products)){applyRemoteState(remote,false);setSyncStatus("Sincronizado","ok");}
-  else{setSyncStatus("Base central vazia","busy");showToast("Base central pronta","Faça uma importação neste ou em outro computador para publicar a primeira base.");}
-}
-function startRemoteListener(){
-  if(!fbDB||!currentUser)return;
-  if(remoteRef&&remoteHandler)remoteRef.off("value",remoteHandler);
-  remoteRef=fbDB.ref(CENTRAL_PATH);
-  remoteHandler=snapshot=>{const remote=snapshot.val();if(!remote||!Array.isArray(remote.products))return;const fingerprint=stateFingerprint(remote);if(fingerprint===lastRemoteFingerprint)return;applyRemoteState(remote,true);setSyncStatus("Sincronizado","ok");};
-  remoteRef.on("value",remoteHandler,error=>{setSyncStatus("Erro de sincronização","error");console.error(error);});
-}
-async function saveCentralState(reason="update"){
-  if(applyingRemote)return false;
-  if(!fbDB||!currentUser)throw new Error("Entre novamente para salvar na base central.");
-  setSyncStatus("Salvando","busy");
-  const payload=normalizeState({...clone(app),syncUpdatedAt:new Date().toISOString(),syncUpdatedBy:currentUser.email||"Usuário",syncReason:reason});
-  if(reason==="import")payload.meta={...payload.meta,importedBy:currentUser.email||"Usuário"};
-  const saved=await fbDB.ref(CENTRAL_PATH).transaction(remote=>({...payload,productFollowups:remote?.productFollowups||payload.productFollowups||{},unitCatalog:remote?.unitCatalog||payload.unitCatalog||{},hiddenProducts:reason==="import"?(remote?.hiddenProducts||payload.hiddenProducts):payload.hiddenProducts}));
-  Object.assign(payload,saved.snapshot.val());
-  app=payload;saveState();lastRemoteFingerprint=stateFingerprint(payload);updateSourceBar();setSyncStatus("Sincronizado","ok");return true;
-}
-function queueCentralSave(reason="update"){if(applyingRemote||!syncReady||!currentUser)return;clearTimeout(centralSaveTimer);centralSaveTimer=setTimeout(()=>saveCentralState(reason).catch(error=>{setSyncStatus("Erro ao salvar","error");showToast("Alteração salva somente neste computador",firebaseErrorMessage(error),"error");}),650);}
 async function loginFirebase(){
   const email=document.getElementById("authEmailInput").value.trim(),password=document.getElementById("authPasswordInput").value,keep=document.getElementById("authKeep").checked,button=document.getElementById("authLoginButton");
   if(!email||!password){setAuthMessage("Preencha e-mail e senha.");return;}
@@ -505,7 +489,7 @@ async function handleAuthenticatedUser(user){
   try{await loadCentralState();syncReady=true;startRemoteListener();}
   catch(error){syncReady=false;setSyncStatus("Erro de conexão","error");showToast("Não foi possível carregar a base central",firebaseErrorMessage(error),"error");}
 }
-async function logoutFirebase(){clearTimeout(centralSaveTimer);syncReady=false;if(remoteRef&&remoteHandler)remoteRef.off("value",remoteHandler);remoteRef=remoteHandler=null;currentUser=null;document.getElementById("authEmail").textContent="";if(fbAuth)await fbAuth.signOut();showAuthScreen();}
+async function logoutFirebase(){clearTimeout(centralSaveTimer);syncReady=false;stopRemoteListener();currentUser=null;document.getElementById("authEmail").textContent="";if(fbAuth)await fbAuth.signOut();showAuthScreen();}
 function initFirebaseSync(){
   if(window.__firebaseLoadError||typeof firebase==="undefined"){setAuthMessage("A conexão com o Firebase não carregou. Verifique a internet.");setSyncStatus("Firebase indisponível","error");return;}
   try{const firebaseApp=firebase.apps.length?firebase.app():firebase.initializeApp(FIREBASE_CONFIG);fbAuth=firebaseApp.auth();fbDB=firebaseApp.database();fbAuth.onAuthStateChanged(user=>{if(user)handleAuthenticatedUser(user);else{currentUser=null;syncReady=false;showAuthScreen();}},error=>{setAuthMessage(firebaseErrorMessage(error));setSyncStatus("Erro de autenticação","error");});}
@@ -515,7 +499,7 @@ function hiddenProductCodes(){return new Set(Array.isArray(app.hiddenProducts)?a
 function isProductHidden(code){return hiddenProductCodes().has(String(code));}
 function visibleProducts(){const hidden=hiddenProductCodes();return app.products.filter(product=>!hidden.has(String(product.codigo_produto)));}
 function visibilityButton(product,hiddenCodes=null){const hidden=(hiddenCodes||hiddenProductCodes()).has(String(product.codigo_produto)),code=encodeURIComponent(product.codigo_produto);return`<button type="button" class="visibility-btn ${hidden?"restore":"hide-item"}" title="${hidden?"Reativar produto nos relatórios":"Ocultar produto dos relatórios"}" onclick="toggleProductVisibility('${code}')">${hidden?"↩ Reativar":"◉ Ocultar"}</button>`;}
-function toggleProductVisibility(encodedCode){const code=decodeURIComponent(encodedCode),product=app.products.find(item=>String(item.codigo_produto)===code);if(!product)return;const hidden=hiddenProductCodes(),willHide=!hidden.has(code);if(willHide)hidden.add(code);else hidden.delete(code);app.hiddenProducts=[...hidden];saveState();renderAll();queueCentralSave("product_visibility");showToast(willHide?"Produto ocultado":"Produto reativado",willHide?`${product.produto} não aparecerá nos relatórios e sugestões de compra.`:`${product.produto} voltou a aparecer no sistema.`);}
+function toggleProductVisibility(encodedCode){const code=decodeURIComponent(encodedCode),product=app.products.find(item=>String(item.codigo_produto)===code);if(!product)return;const hidden=hiddenProductCodes(),willHide=!hidden.has(code);if(willHide)hidden.add(code);else hidden.delete(code);app.hiddenProducts=[...hidden];saveState();renderAll();setProductHidden(code,willHide).catch(error=>{setSyncStatus("Erro ao salvar","error");showToast("Não foi salvo na base central",firebaseErrorMessage(error),"error");});showToast(willHide?"Produto ocultado":"Produto reativado",willHide?`${product.produto} não aparecerá nos relatórios e sugestões de compra.`:`${product.produto} voltou a aparecer no sistema.`);}
 function esc(value){return String(value??"").replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));}
 function norm(value){return String(value??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"");}
 function num(value){const n=Number(value);return Number.isFinite(n)&&Math.abs(n)>1e-9?n:0;}
@@ -671,7 +655,7 @@ function processRows(sourceRows,fileName){
 async function importFile(file){if(!file)return;if(window.__xlsxLoadError||typeof XLSX==="undefined"){showToast("Leitor de planilha indisponível","Conecte-se à internet e abra o sistema novamente antes de importar.","error");return;}let imported=false;try{const buffer=await file.arrayBuffer();let rows=[];if(file.name.toLowerCase().endsWith(".csv")){const text=await file.text();const delimiter=(text.split("\n")[0].match(/;/g)||[]).length>(text.split("\n")[0].match(/,/g)||[]).length?";":",";const lines=text.split(/\r?\n/).filter(Boolean),headers=parseCsvLine(lines.shift(),delimiter);rows=lines.map(line=>{const values=parseCsvLine(line,delimiter),row={};headers.forEach((header,index)=>row[header]=values[index]??"");return row;});}else{const workbook=XLSX.read(buffer,{type:"array",raw:true,cellDates:false});const sheetName=workbook.SheetNames.find(name=>norm(name)==="compras")||workbook.SheetNames[0];rows=XLSX.utils.sheet_to_json(workbook.Sheets[sheetName],{defval:"",raw:true});}const before=clone(app);let meta;try{meta=processRows(rows,file.name);}catch(error){app=before;saveState();throw error;}const confirmed=await confirmImport(before,meta,file.name);if(!confirmed){app=before;saveState();setFamilyOptions();updateSourceBar();renderAll();showToast("Importação cancelada","A base atual não foi alterada.");return;}app.previousImport={products:before.products,meta:before.meta,familyMap:before.familyMap,savedAt:new Date().toISOString()};saveState();updateUndoButton();imported=true;await saveCentralState("import");updateUndoButton();showToast("Importação concluída e compartilhada",`${meta.validRows} registros · ${meta.productCount} produtos · ${meta.newProducts} novos. Todos os computadores foram atualizados.`);}catch(error){setSyncStatus(imported?"Importação não sincronizada":"Erro na importação","error");showToast(imported?"Planilha importada somente neste computador":"Erro ao importar",firebaseErrorMessage(error),"error");}}
 function confirmImport(before,meta,fileName){return new Promise(resolve=>{const oldCodes=new Set(before.products.map(p=>p.codigo_produto)),newCodes=new Set(app.products.map(p=>p.codigo_produto)),missing=before.products.filter(p=>!newCodes.has(p.codigo_produto)),added=app.products.filter(p=>!oldCodes.has(p.codigo_produto)),names=list=>list.slice(0,5).map(p=>esc(p.produto)).join(", ")+(list.length>5?` e mais ${list.length-5}`:"");document.getElementById("importModalTitle").textContent="Confirmar importação";document.getElementById("importModalLead").textContent="Esta planilha vai substituir a base das 3 lojas em todos os computadores.";document.getElementById("importConfirm").textContent="Substituir base";document.getElementById("importPreview").innerHTML=`<dl><dt>Arquivo</dt><dd>${esc(fileName)}</dd><dt>Registros válidos</dt><dd>${meta.validRows}${meta.ignoredRows?` (${meta.ignoredRows} ignorados)`:""}</dd><dt>Produtos</dt><dd>${before.products.length} → <b>${app.products.length}</b></dd><dt>Novos</dt><dd>${added.length}${added.length?`<small>${names(added)}</small>`:""}</dd><dt>Saem da base</dt><dd class="${missing.length?"import-warn":""}">${missing.length}${missing.length?`<small>${names(missing)}</small>`:""}</dd></dl>`;openConfirmModal(resolve);});}
 function openConfirmModal(resolve){const modal=document.getElementById("importModal"),ok=document.getElementById("importConfirm"),cancel=document.getElementById("importCancel");const finish=value=>{modal.classList.remove("open");ok.onclick=cancel.onclick=modal.onclick=null;resolve(value);};ok.onclick=()=>finish(true);cancel.onclick=()=>finish(false);modal.onclick=event=>{if(event.target===modal)finish(false);};modal.classList.add("open");cancel.focus();}
-function updateUndoButton(){const button=document.getElementById("undoImport");if(button)button.classList.toggle("hide",!app.previousImport?.products?.length);}
+function updateUndoButton(){const button=document.getElementById("undoImport");if(button)button.classList.toggle("hide",!(app.previousImport?.products?.length||0));}
 function undoImport(){const prev=app.previousImport;if(!prev?.products?.length)return;document.getElementById("importModalTitle").textContent="Desfazer última importação";document.getElementById("importModalLead").textContent="A base volta a ser a que existia antes da última importação, em todos os computadores.";document.getElementById("importConfirm").textContent="Restaurar base anterior";document.getElementById("importPreview").innerHTML=`<dl><dt>Voltar para</dt><dd>${esc(prev.meta?.sourceFile||"base anterior")}</dd><dt>Importada em</dt><dd>${esc(formatImportMoment(prev.meta?.importedAt))}</dd><dt>Produtos</dt><dd>${app.products.length} → <b>${prev.products.length}</b></dd></dl>`;openConfirmModal(async confirmed=>{if(!confirmed)return;const current={products:app.products,meta:app.meta,familyMap:app.familyMap,savedAt:new Date().toISOString()};app.products=prev.products;app.meta=prev.meta;app.familyMap=prev.familyMap||app.familyMap;app.previousImport=current;operationUnitCache.clear();saveState();setFamilyOptions();updateSourceBar();renderAll();try{await saveCentralState("import_restore");showToast("Base anterior restaurada","Todos os computadores foram atualizados.");}catch(error){setSyncStatus("Erro ao salvar","error");showToast("Restaurada somente neste computador",firebaseErrorMessage(error),"error");}});}
 function parseCsvLine(line,delimiter){const result=[];let value="",quoted=false;for(let i=0;i<line.length;i++){const char=line[i];if(char==='"'){if(quoted&&line[i+1]==='"'){value+='"';i++;}else quoted=!quoted;}else if(char===delimiter&&!quoted){result.push(value.trim());value="";}else value+=char;}result.push(value.trim());return result;}
 
@@ -681,56 +665,6 @@ const OPERATION_NAMES={
 const OPERATION_CATEGORIES={loss:{label:"Perdas e limpeza",icon:"🧹",color:"#b42318",css:"op-loss"},inventory:{label:"Ajustes de inventário",icon:"⚖️",color:"#6941c6",css:"op-inventory"},entry:{label:"Entradas e compras",icon:"📥",color:"#087a55",css:"op-entry"},transfer:{label:"Transferências",icon:"⇄",color:"#1849a9",css:"op-transfer"},production:{label:"Produção e subprodutos",icon:"⚙️",color:"#b54708",css:"op-production"},sale:{label:"Vendas",icon:"🧾",color:"#475467",css:"op-sale"},other:{label:"Outras",icon:"•••",color:"#344054",css:"op-other"}};
 function operationCategory(code,name=""){const n=norm(name),c=String(code||"");if(["000058","000096","000108","000109","000110","000113","000125","000126","000044"].includes(c)||/limpeza|sangue|liquido|estragado|vencido|perda/.test(n))return"loss";if(["000094","000097"].includes(c)||/ajusteinventario/.test(n))return"inventory";if(["000006","000140","000141","000142","000143","000144"].includes(c)||/compra|devolucao|produtosemnota/.test(n))return"entry";if(["000134","000135"].includes(c)||/transfer/.test(n))return"transfer";if(["000042","000071","000081","000083","000088","000115","000120","000131","000132","000137","000138"].includes(c)||/producao|subproduto|hamburguer|burger|evento|gordura/.test(n))return"production";if(["000003","000019","000116"].includes(c)||/venda/.test(n))return"sale";return"other";}
 function operationBadge(category){const data=OPERATION_CATEGORIES[category]||OPERATION_CATEGORIES.other;return`<span class="op-badge ${data.css}">${data.icon} ${data.label}</span>`;}
-function isoFromPtDate(value){const match=String(value||"").match(/^(\d{2})\/(\d{2})\/(\d{4})$/);return match?`${match[3]}-${match[2]}-${match[1]}`:"";}
-function pdfLineGroups(items){const groups=[];for(const item of items){const text=String(item.str||"").trim();if(!text)continue;const x=Number(item.transform?.[4]||0),y=Number(item.transform?.[5]||0);let group=groups.find(row=>Math.abs(row.y-y)<1.2);if(!group){group={y,items:[]};groups.push(group);}group.items.push({text,x});}return groups.sort((a,b)=>b.y-a.y).map(group=>({y:group.y,items:group.items.sort((a,b)=>a.x-b.x)}));}
-function lineText(line,min=-Infinity,max=Infinity){return line.items.filter(item=>item.x>=min&&item.x<max).map(item=>item.text).join(" ").replace(/\s+/g," ").trim();}
-function lineValue(line,min,max){return line.items.find(item=>item.x>=min&&item.x<max)?.text||"";}
-async function parseOperationsPdf(file,onProgress=()=>{}){
-  if(window.__pdfLoadError||typeof pdfjsLib==="undefined")throw new Error("O leitor de PDF não carregou. Verifique a internet e abra o sistema novamente.");
-  pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-  const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;let store="",currentProduct={code:"",name:""};const rows=[];
-  for(let pageNumber=1;pageNumber<=pdf.numPages;pageNumber++){
-    const page=await pdf.getPage(pageNumber),content=await page.getTextContent(),lines=pdfLineGroups(content.items);
-    for(const line of lines){
-      const full=lineText(line);
-      if(!store&&/\bEmpresa\b/i.test(full)){const code=line.items.find(item=>/^00[1-3]$/.test(item.text));if(code)store=code.text;}
-      if(!store){const upper=full.toUpperCase();if(upper.includes("FILIAL CORONEL"))store="001";else if(upper.includes("FILIAL CORREAS")||upper.includes("FILIAL CORRÊAS"))store="002";else if(upper.includes("FILIAL BINGEN"))store="003";}
-      const dateItem=line.items.find(item=>item.x<65&&/^\d{2}\/\d{2}\/\d{4}$/.test(item.text));
-      if(!dateItem){const productCode=line.items.find(item=>item.x<65&&/^\d{6}$/.test(item.text));if(productCode){const name=lineText(line,100,390).replace(/\s+/g," ").trim();if(name&&!/saldo|pagina|empresa/i.test(name))currentProduct={code:productCode.text,name,reportedUnit:normalizeMeasureUnit(line.items.find(item=>item.x>=65&&item.x<100&&normalizeMeasureUnit(item.text))?.text)};}continue;}
-      const operationCode=line.items.find(item=>item.x>=65&&item.x<110&&/^\d{6}$/.test(item.text));if(!operationCode||!currentProduct.code)continue;
-      const rawName=lineText(line,105,390),operation=OPERATION_NAMES[operationCode.text]||rawName||`OPERAÇÃO ${operationCode.text}`;
-      const quantity=parsePtNumber(lineValue(line,438,485)),unitPrice=parsePtNumber(lineValue(line,485,535)),movementValue=parsePtNumber(lineValue(line,535,595)),document=lineValue(line,375,438);
-      rows.push({date:isoFromPtDate(dateItem.text),store:"",productCode:currentProduct.code,productName:currentProduct.name,reportedUnit:currentProduct.reportedUnit||"",operationCode:operationCode.text,operation,category:operationCategory(operationCode.text,operation),quantity,unitPrice,movementValue,document:String(document||"")});
-    }
-    if(pageNumber===1||pageNumber===pdf.numPages||pageNumber%10===0)onProgress(pageNumber,pdf.numPages);
-  }
-  if(!store)throw new Error("Não foi possível identificar a empresa/loja no extrato.");for(const row of rows)row.store=store;if(!rows.length)throw new Error("Nenhuma movimentação válida foi encontrada no PDF.");
-  const dates=rows.map(row=>row.date).filter(Boolean).sort();return{store,rows,start:dates[0],end:dates[dates.length-1],pages:pdf.numPages};
-}
-function mergeOperationsImport(parsed,fileName){const keep=app.operations.filter(row=>!(row.store===parsed.store&&row.date>=parsed.start&&row.date<=parsed.end)),combined=[...keep,...parsed.rows],seen=new Set();app.operations=combined.filter(row=>{const key=[row.store,row.date,row.productCode,row.operationCode,row.document,row.quantity,row.unitPrice,row.movementValue].join("|");if(seen.has(key))return false;seen.add(key);return true;}).sort((a,b)=>a.date.localeCompare(b.date)||a.productName.localeCompare(b.productName,"pt-BR"));operationUnitCache.clear();for(const row of app.operations)row.measureUnit=operationMeasureUnit(row);const importedAt=new Date().toISOString(),entry={store:parsed.store,fileName,start:parsed.start,end:parsed.end,rows:parsed.rows.length,pages:parsed.pages,importedAt,importedBy:currentUser?.email||"Usuário"};const imports=(app.operationsMeta?.imports||[]).filter(item=>!(item.store===parsed.store&&item.start===parsed.start&&item.end===parsed.end));app.operationsMeta={imports:[entry,...imports],importedAt,importedBy:entry.importedBy};saveState();setOperationPeriodDefaults(true);renderOperations();return entry;}
-async function importOperationsPdf(file){if(!file)return;const button=document.getElementById("operationImportButton"),original=button.textContent;button.disabled=true;button.textContent="Lendo extrato…";let imported=false;try{const parsed=await parseOperationsPdf(file,(page,total)=>{button.textContent=`Lendo PDF ${page}/${total}…`;});const entry=mergeOperationsImport(parsed,file.name);imported=true;button.textContent="Salvando na base central…";await saveCentralState("operations_import");showToast("Extrato de operações importado",`${entry.rows} movimentações de ${STORES[entry.store]} · ${formatDate(entry.start)} até ${formatDate(entry.end)}. Todos os computadores foram atualizados.`);}catch(error){setSyncStatus(imported?"Operações não sincronizadas":"Erro na importação","error");showToast(imported?"Extrato salvo somente neste computador":"Erro ao importar extrato",firebaseErrorMessage(error),"error");}finally{button.disabled=false;button.textContent=original;}}
-function operationDateBounds(){const dates=app.operations.map(row=>row.date).filter(Boolean).sort();return{start:dates[0]||"",end:dates[dates.length-1]||""};}
-function setOperationPeriodDefaults(force=false){const bounds=operationDateBounds(),start=document.getElementById("operationStart"),end=document.getElementById("operationEnd");if(start&&(force||!start.value))start.value=bounds.start;if(end&&(force||!end.value))end.value=bounds.end;}
-function operationFilteredRows(options={}){const start=document.getElementById("operationStart")?.value||"",end=document.getElementById("operationEnd")?.value||"",query=norm(document.getElementById("operationSearch")?.value||""),includeSales=options.includeSales??(document.getElementById("operationIncludeSales")?.checked||false);return app.operations.filter(row=>(!start||row.date>=start)&&(!end||row.date<=end)&&(selectedOperationStore==="all"||row.store===selectedOperationStore)&&(includeSales||row.category!=="sale")&&(options.ignoreCategory||selectedOperationCategories.size===0||selectedOperationCategories.has(row.category))&&(!query||norm(`${row.productCode} ${row.productName} ${pcpFamily(row)}`).includes(query)));}
-function renderOperationStoreBalloons(){const target=document.getElementById("operationStoreBalloons");if(!target)return;target.innerHTML=bubbleButton("Todas as lojas","▦","#344054",selectedOperationStore==="all","setOperationStore('all')")+STORE_IDS.map(store=>bubbleButton(STORES[store],'<i class="sdot"></i>',STORE_COLORS[store],selectedOperationStore===store,`setOperationStore('${store}')`)).join("");}
-function setOperationStore(store){selectedOperationStore=STORE_IDS.includes(store)?store:"all";selectedOperationDate="";selectedOperationProduct="";selectedMovementCode="all";renderOperations();}
-function renderOperationCategoryBalloons(){const target=document.getElementById("operationCategoryBalloons");if(!target)return;target.innerHTML=bubbleButton("Todas","▦","#344054",selectedOperationCategories.size===0,"toggleOperationCategory('all')")+Object.entries(OPERATION_CATEGORIES).filter(([key])=>key!=="sale"||document.getElementById("operationIncludeSales")?.checked).map(([key,data])=>bubbleButton(data.label,data.icon,data.color,selectedOperationCategories.has(key),`toggleOperationCategory('${key}')`)).join("");}
-function toggleOperationCategory(category){selectedOperationCategories.clear();if(category!=="all"&&OPERATION_CATEGORIES[category])selectedOperationCategories.add(category);selectedOperationDate="";selectedOperationProduct="";selectedMovementCode="all";renderOperations();}
-function selectOperationDate(date){selectedOperationDate=date;selectedOperationProduct="";selectedMovementCode="all";renderOperations();document.getElementById("operationDetailTitle")?.scrollIntoView({behavior:"smooth",block:"start"});}
-function selectOperationProduct(encodedCode){selectedOperationProduct=decodeURIComponent(encodedCode);selectedOperationDate="";selectedMovementCode="all";renderOperations();document.getElementById("operationDetailTitle")?.scrollIntoView({behavior:"smooth",block:"start"});}
-function clearOperationProduct(){selectedOperationProduct="";selectedOperationDate="";selectedMovementCode="all";renderOperations();}
-function selectMovementCode(code){selectedMovementCode=code||"all";renderOperations();}
-function renderMovementBalloons(rows){const target=document.getElementById("operationMovementBalloons");if(!target)return;const options=[...new Map(rows.map(row=>[row.operationCode,{code:row.operationCode,name:row.operation,category:row.category}])).values()].sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));if(selectedMovementCode!=="all"&&!options.some(item=>item.code===selectedMovementCode))selectedMovementCode="all";target.innerHTML=bubbleButton("Todas","▦","#344054",selectedMovementCode==="all","selectMovementCode('all')")+options.map(item=>{const category=OPERATION_CATEGORIES[item.category]||OPERATION_CATEGORIES.other;return bubbleButton(item.name,category.icon,category.color,selectedMovementCode===item.code,`selectMovementCode('${item.code}')`);}).join("");}
-function renderOperations(){
-  setOperationPeriodDefaults();renderPcpDashboard();
-  setOperationPeriodDefaults();renderOperationStoreBalloons();renderOperationCategoryBalloons();const rows=operationFilteredRows(),operational=rows.filter(row=>row.category!=="sale"),lossRows=operational.filter(row=>row.category==="loss"),inventoryRows=operational.filter(row=>row.category==="inventory"),entryRows=operational.filter(row=>row.category==="entry"),days=[...new Set(operational.map(row=>row.date))].sort().reverse();if(selectedOperationProduct)selectedOperationDate="";else if(!days.includes(selectedOperationDate))selectedOperationDate=days[0]||"";
-  const imports=app.operationsMeta?.imports||[];document.getElementById("operationSourceLabel").textContent=imports.length?`${imports.length} extrato(s) na base · última importação ${formatImportMoment(app.operationsMeta.importedAt)} · ${app.operationsMeta.importedBy||"Usuário"}`:"Nenhum extrato de operações importado.";document.getElementById("operationCountLabel").textContent=`${app.operations.length} movimentações armazenadas`;
-  const grouped=new Map();for(const row of operational){if(!grouped.has(row.date))grouped.set(row.date,[]);grouped.get(row.date).push(row);}document.getElementById("operationDays").innerHTML=days.length?days.map(date=>{const items=grouped.get(date),loss=splitOperationTotals(items.filter(row=>row.category==="loss")),adjustments=items.filter(row=>row.category==="inventory").length,entries=splitOperationTotals(items.filter(row=>row.category==="entry")),productCount=new Set(items.map(row=>row.productCode)).size,measureText=total=>[total.kg?`${fmtQty(total.kg,2)} kg`:"",total.units?`${formatUnits(total.units)} un.`:""].filter(Boolean).join(" · ")||"0";return`<button class="operation-day ${selectedOperationDate===date?"on":""}" onclick="selectOperationDate('${date}')"><strong>${formatDate(date)}</strong><div><small>Movimentos</small><b>${items.length} · ${productCount} produtos</b></div><div><small>Perdas</small><b class="measure-line" style="color:#b42318">${measureText(loss)}</b></div><div><small>Ajustes</small><b>${adjustments}</b></div><div class="optional"><small>Entradas</small><b class="measure-line" style="color:#087a55">${measureText(entries)}</b></div></button>`;}).join(""):empty("Sem movimentações","Importe o extrato PDF ou ajuste o período e os filtros.");
-  const productRows=selectedOperationProduct?operationFilteredRows({ignoreCategory:true,includeSales:true}).filter(row=>row.productCode===selectedOperationProduct):null,detailBase=productRows||(selectedOperationDate?rows.filter(row=>row.date===selectedOperationDate):rows);renderMovementBalloons(detailBase);const details=selectedMovementCode==="all"?detailBase:detailBase.filter(row=>row.operationCode===selectedMovementCode),selectedProductName=productRows?.[0]?.productName||"",detailTotals=splitOperationTotals(details);
-  document.getElementById("operationDetailTitle").textContent=selectedOperationProduct?`Histórico completo: ${selectedProductName}`:selectedOperationDate?`Movimentações de ${formatDate(selectedOperationDate)}`:"Detalhamento das operações";document.getElementById("operationDetailCount").textContent=`${details.length} registros`;document.getElementById("operationDetailContext").innerHTML=selectedOperationProduct?`<span>Produto selecionado: <b>${esc(selectedProductName)}</b> · ${esc(selectedOperationProduct)}</span><button class="btn sm" type="button" onclick="clearOperationProduct()">× Limpar produto</button>`:selectedOperationDate?`<span>Exibindo as movimentações do dia <b>${formatDate(selectedOperationDate)}</b>.</span>`:`<span>Use os filtros para consultar as movimentações.</span>`;
-  document.getElementById("operationDetailTotals").innerHTML=`<div class="movement-total kg"><small>Total em quilos</small><strong>${fmtQty(detailTotals.kg,3)} kg</strong></div><div class="movement-total unit"><small>Total em unidades</small><strong>${formatUnits(detailTotals.units)} un.</strong></div><div class="movement-total money"><small>Valor movimentado</small><strong>${fmtCurrency(detailTotals.value)}</strong></div>`;
-  document.getElementById("operationBody").innerHTML=details.length?details.sort((a,b)=>b.date.localeCompare(a.date)||a.category.localeCompare(b.category)||b.quantity-a.quantity).map(row=>{const unit=operationMeasureUnit(row);return`<tr><td>${formatDate(row.date)}</td><td>${esc(STORES[row.store]||row.store)}</td><td class="code">${esc(row.productCode)}</td><td class="product">${esc(row.productName)}</td><td>${operationBadge(row.category)}</td><td class="opname">${esc(row.operation)}</td><td class="num"><span class="quantity-highlight ${unit==="un"?"unit":""}">${formatOperationQty(row)}</span></td><td class="num"><span class="money-highlight">${fmtCurrency(row.unitPrice)}</span></td><td class="num"><span class="money-highlight">${fmtCurrency(row.movementValue)}</span></td><td class="code">${esc(row.document||"—")}</td></tr>`;}).join(""):`<tr><td colspan="10">${empty("Nenhuma operação encontrada","Ajuste os filtros para consultar outras movimentações.")}</td></tr>`;
-}
 
 function navigate(page){document.querySelectorAll(".navbtn").forEach(button=>button.classList.toggle("on",button.dataset.page===page));document.querySelectorAll(".page").forEach(section=>section.classList.toggle("on",section.id===`page-${page}`));if(page==="overview")renderOverview();if(page==="products")renderProducts();if(page==="prices")renderPrices();if(page==="beverages")renderBeverages();if(page==="sauces")renderSauces();if(page==="operations")renderOperations();if(page==="purchase")renderPurchase();if(page==="families")renderFamilies();window.scrollTo({top:0,behavior:"smooth"});}
 function renderAll(){renderFilterBalloons();renderFamilyChips();renderOverview();renderProducts();renderPrices();renderBeverages();renderSauces();renderOperations();renderPurchase();renderFamilies();}
@@ -741,8 +675,6 @@ function bind(){
   document.getElementById("productSearch").addEventListener("input",renderProducts);
   document.getElementById("priceSearch").addEventListener("input",renderPrices);
   document.getElementById("beverageSearch").addEventListener("input",renderBeverages);document.getElementById("sauceSearch").addEventListener("input",renderSauces);
-  document.getElementById("operationImportButton").addEventListener("click",()=>document.getElementById("operationFileInput").click());document.getElementById("operationFileInput").addEventListener("change",event=>{importOperationsPdf(event.target.files[0]);event.target.value="";});
-  for(const id of ["operationStart","operationEnd","operationIncludeSales"])document.getElementById(id).addEventListener("change",()=>{if(id==="operationIncludeSales"&&!document.getElementById(id).checked)selectedOperationCategories.delete("sale");selectedOperationDate="";selectedOperationProduct="";selectedMovementCode="all";renderOperations();});document.getElementById("operationSearch").addEventListener("input",()=>{selectedOperationDate="";selectedOperationProduct="";selectedMovementCode="all";renderOperations();});
   document.getElementById("purchaseSearch").addEventListener("input",renderPurchase);document.getElementById("purchaseShowAll").addEventListener("change",renderPurchase);
   for(const id of ["coverageDays","safetyDays"])document.getElementById(id).addEventListener("change",()=>{renderPurchase();queueCentralSave("purchase_settings");});
   document.getElementById("globalStart").addEventListener("change",event=>changePeriod(event.target.value,app.period.end));document.getElementById("globalEnd").addEventListener("change",event=>changePeriod(app.period.start,event.target.value));
