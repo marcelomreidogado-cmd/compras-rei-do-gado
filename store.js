@@ -113,7 +113,10 @@ async function loadCentralState(){
   let core=(await dbRef('core').once('value')).val();
   if(!core){setSyncStatus('Atualizando a base para a nova versão','busy');if(await migrateLegacy()){core=(await dbRef('core').once('value')).val();showToast('Base atualizada para a versão 3','A base antiga continua guardada como backup.');}}
   const nodes=Object.keys(NODE_APPLY).filter(n=>n!=='core'),values=await Promise.all(nodes.map(n=>dbRef(n).once('value').then(s=>s.val())));
-  NODE_APPLY.core(core);nodes.forEach((n,i)=>{if(n!=='operationsMeta')NODE_APPLY[n](values[i]);lastApplied[n]=JSON.stringify(values[i]??null);});lastApplied.core=JSON.stringify(core??null);
+  /* unitCatalog antes do core: normalizeUnitQuantities (dentro do core) precisa das unidades definidas à mão,
+     senão arredonda um produto marcado como kg (e a próxima gravação do core salvaria o valor arredondado). */
+  NODE_APPLY.unitCatalog(values[nodes.indexOf('unitCatalog')]);
+  NODE_APPLY.core(core);nodes.forEach((n,i)=>{if(n!=='operationsMeta'&&n!=='unitCatalog')NODE_APPLY[n](values[i]);lastApplied[n]=JSON.stringify(values[i]??null);});lastApplied.core=JSON.stringify(core??null);
   NODE_APPLY.operationsMeta(values[nodes.indexOf('operationsMeta')]);
   saveState();scheduleRender();
   setSyncStatus(core?'Sincronizado':'Base central vazia',core?'ok':'busy');

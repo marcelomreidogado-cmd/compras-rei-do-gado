@@ -16,3 +16,11 @@ const r=vm.runInContext('stockRow',ctx)(meat);
 assert.equal(r.stores['001'].status,'low');assert.equal(r.stores['003'].status,'negative');assert.equal(r.stores['002'].status,'excess');
 assert.ok(r.transfers.some(t=>t.from==='002'&&t.to==='001'&&t.q>0),'sugere Correas → Coronel');
 console.log('Estoque OK: unidades por nome/família/cadastro, itens por unidade inteiros, situação por loja e transferência.');
+
+// Carregar a base: unidade definida à mão (kg) tem de valer antes de arredondar os produtos do core.
+{const vals={core:{products:[{produto:'PAO DE ALHO TRADICIONAL',familia:'PAO DE ALHO',codigo_produto:'000077',estoque_atual_001:3.75}],settings:{}},unitCatalog:{'000077':'kg'}};
+ Object.assign(ctx,{fbDB:{ref:path=>({once:async()=>({val:()=>vals[path.split('/')[1]]??null})})},currentUser:{email:'teste'},operationUnitCache:new Map(),INITIAL_DATA:{meta:{}},clone:x=>JSON.parse(JSON.stringify(x)),setSyncStatus(){},showToast(){},localStorage:{setItem(){},getItem(){return null},removeItem(){}},setTimeout:()=>0,clearTimeout(){},Promise,console});
+ vm.runInContext(fs.readFileSync(__dirname+'/store.js','utf8').replace(/^const /gm,'var ').replace(/^let /gm,'var '),ctx);
+ ctx.loadOperations=async()=>{};ctx.app.operationsMeta={};
+ vm.runInContext('NODE_APPLY.operationsMeta=()=>{}',ctx);
+ vm.runInContext('loadCentralState()',ctx).then(()=>{assert.equal(ctx.app.products[0].estoque_atual_001,3.75,'produto marcado como kg não é arredondado ao carregar');console.log('Carregamento OK: unidade definida à mão vale antes do arredondamento.');}).catch(e=>{console.error(e);process.exit(1);});}
