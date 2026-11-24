@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="rdg-version" content="3.1.2-2026-11-24">
+<meta name="rdg-version" content="3.1.3-2026-11-24">
 <title>Compras Gerenciais · Rei do Gado</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" onerror="window.__xlsxLoadError=true"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" onerror="window.__pdfLoadError=true"></script>
@@ -257,7 +257,7 @@ td{font-size:13px}
 @media(max-width:1100px){.pr3-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:820px){.pr3-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.price-table .pr3-name{position:sticky;left:0;background:#fff;z-index:1;min-width:160px}.pr3-mini{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* v3.1: estoque por loja (st-*) */
 .st-filters{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:0 0 10px}.st-filters .pk-row{margin:0}.st-filters .search{flex:1 1 220px;min-width:200px}.st-store{padding:6px 12px!important}
-.st-table td.st-cell{text-align:right;white-space:nowrap;border-left:3px solid transparent;font-variant-numeric:tabular-nums}.st-cell b{display:block;font-size:14px}.st-cell small{display:block;color:#667085;font-size:11px}
+.st-table td.st-cell{text-align:right;white-space:nowrap;border-left:3px solid transparent;font-variant-numeric:tabular-nums}.st-cell b,.st-sale b{display:block;font-size:14px}.st-cell small{display:block;color:#667085;font-size:11px}.st-table td.st-sale{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;border-right:1px solid #eef0f3}.st-table th.store-group{text-align:center}
 .st-cell.st-rupture,.st-cell.st-negative{border-left-color:#f04438;background:#fff5f4}.st-cell.st-rupture b,.st-cell.st-negative b{color:var(--bad)}.st-cell.st-low{border-left-color:#f79009}.st-cell.st-low b{color:#b54708}.st-cell.st-excess{border-left-color:#7a5af8}.st-cell.st-slow{border-left-color:#98a2b3}.st-cell.st-review{border-left-color:#f04438}
 .st-table th.st-focus,.st-table td.st-focus{box-shadow:inset 0 0 0 2px rgba(157,28,32,.18)}.st-total{background:#f9fafb}
 .st-unit{border:1px solid #d0d5dd;background:#fff;border-radius:6px;font-size:11px;font-weight:700;color:#475467;padding:0 5px;line-height:17px;cursor:pointer}.st-unit:hover{border-color:#667085}
@@ -321,7 +321,7 @@ td{font-size:13px}
     <div class="st-filters"><div class="pk-row" id="productStores" role="group" aria-label="Loja em foco"></div><div class="search"><input id="productSearch" type="search" aria-label="Buscar produto ou código" placeholder="Buscar produto ou código…"></div></div>
     <div class="pk-row" id="productKpis" role="group" aria-label="Filtrar pela situação do estoque"></div>
     <div class="tablewrap"><table class="quick-products st-table"><thead id="productHead"></thead><tbody id="productBody"></tbody></table></div>
-    <p class="st-legend op3-muted">Cada loja: <b>estoque</b> · vendido no período · cobertura em dias. Unidade (kg/un) ao lado do nome: clique para corrigir. Itens por unidade são sempre inteiros.</p>
+    <p class="st-legend op3-muted">Cada loja: <b>estoque</b> (com a cobertura em dias embaixo) e <b>vendas</b> do período. Unidade (kg/un) ao lado do nome: clique para corrigir. Itens por unidade são sempre inteiros.</p>
   </section>
 
   <section class="page" id="page-extras">
@@ -393,7 +393,7 @@ td{font-size:13px}
     <div class="familygrid" id="familyGrid"></div>
   </section>
 
-  <div class="footer">Compras Gerenciais · Rei do Gado · Versão 3.1.2 · 24/11/2026</div>
+  <div class="footer">Compras Gerenciais · Rei do Gado · Versão 3.1.3 · 24/11/2026</div>
 </main>
 
 <div class="auth-screen open" id="authScreen">
@@ -426,12 +426,12 @@ td{font-size:13px}
 <script src="store.js?v=3.1.1"></script>
 <script src="extrato.js?v=3.0"></script>
 <script src="operacoes.js?v=3.1"></script>
-<script src="estoque.js?v=3.1"></script>
+<script src="estoque.js?v=3.1.3"></script>
 <script src="prices.js?v=3.0"></script>
 <script src="product-notes.js?v=2.17"></script>
 <script>
 "use strict";
-const VERSION="3.1.2-2026-11-24";
+const VERSION="3.1.3-2026-11-24";
 const INITIAL_DATA={"products":[],"operations":[],"period":{"start":"","end":""},"meta":{"sourceFile":"","validRows":0,"ignoredRows":0,"productCount":0,"familyCount":0,"familyConflicts":0,"inferredFamilies":0,"newProducts":0,"importedAt":""},"operationsMeta":{"imports":[],"importedAt":"","importedBy":""}};
 const STORES={"001":"Coronel","002":"Correas","003":"Bingen"};
 const STORE_IDS=Object.keys(STORES);
