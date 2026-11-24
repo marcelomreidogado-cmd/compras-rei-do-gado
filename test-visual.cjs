@@ -6,7 +6,7 @@ const { chromium } = require('playwright');
 const path = require('path'), fs = require('fs');
 const fake = fs.readFileSync(path.join(__dirname, 'test-operations-data.js'), 'utf8');
 const ABAS = [...fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8').matchAll(/class="navbtn[^"]*" data-page="([a-z]+)"/g)].map(m => m[1]);
-const LARGURAS = [390, 1440];
+const LARGURAS = [390, 820, 1440];
 const LINHA_MAX = 110; // px por linha de produto (o padrão é ~2 linhas de texto)
 const FOTOS = process.env.FOTOS; // opcional: pasta para salvar fotos de cada aba
 (async () => {
@@ -27,9 +27,12 @@ const FOTOS = process.env.FOTOS; // opcional: pasta para salvar fotos de cada ab
         const W = document.documentElement.clientWidth, sw = document.documentElement.scrollWidth;
         const page = document.querySelector('.page.on');
         const linhas = [...page.querySelectorAll('.tablewrap tbody tr')].filter(tr => tr.children.length > 1).slice(0, 30).map(tr => tr.getBoundingClientRect().height); // ignora linha única de aviso ("Nenhum...")
-        return { estouro: sw - W, linhaMax: Math.round(Math.max(0, ...linhas)) };
+        // a 1ª coluna visível de cada tabela precisa mostrar texto (o nome do produto não pode sumir)
+        const semNome = [...page.querySelectorAll('.tablewrap table')].filter(t => t.offsetParent).map(t => { const ths = [...t.querySelectorAll('thead tr:last-child th')], col = ths.findIndex(th => /^produto/i.test(th.innerText.trim())); if (col < 0) return null; const tr = [...t.querySelectorAll('tbody tr')].find(x => x.children.length > col); const td = tr && tr.children[col]; return !td || (td.getBoundingClientRect().width > 40 && /[A-Za-zÀ-ú]{2}/.test(td.innerText)) ? null : (t.id || t.className); }).filter(Boolean);
+        return { estouro: sw - W, linhaMax: Math.round(Math.max(0, ...linhas)), semNome };
       });
       if (r.estouro > 1) falhas.push(`${w}px · ${aba}: a página passa ${r.estouro}px da largura da tela`);
+      for (const t of r.semNome) falhas.push(`${w}px · ${aba}: a primeira coluna visível da tabela (${t}) está vazia — nome do produto sumiu?`);
       if (r.linhaMax > LINHA_MAX) falhas.push(`${w}px · ${aba}: linha de tabela com ${r.linhaMax}px (máximo ${LINHA_MAX})`);
       if (FOTOS) { fs.mkdirSync(FOTOS, { recursive: true }); await p.screenshot({ path: path.join(FOTOS, `${aba}-${w}.png`) }); }
     }
