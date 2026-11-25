@@ -34,20 +34,27 @@ Polimento visual feito em 15/11/2026. Para não regredir (o Compras piorou em 16
 - **Não colocar estilo solto (`style="..."`) em linhas de tabela, listas ou cartões.** Criar ou reutilizar classes no bloco de CSS do projeto (indicado abaixo). Estilo inline só para valores dinâmicos (cor de loja, largura de barra).
 - **Tabelas compactas:** cada linha de produto/cliente/lançamento cabe em ~2 linhas de texto. Controles extras (marcações, botões) ficam pequenos e na mesma linha; detalhes vão para um modal ou para a dica (`title`).
 - **Nada passa da largura da tela**, exceto tabelas largas dentro de um contêiner que desliza (com a coluna de nome fixa à esquerda no celular).
-- **Celular primeiro:** conferir em 390 px e em 1440 px. No celular: navegação numa faixa/barra única, filtros e chips em faixa que desliza, indicadores em 2 colunas, textos sem cortar no meio da palavra.
+- **Celular e tablet:** conferir em 390 px (celular), 820 px (tablet em pé), 1024 px (tablet deitado) e 1440 px (computador). O Marcelo usa o sistema no tablet — nunca esconder a coluna do nome do produto nem quebrar o layout nessas larguras. No celular: navegação numa faixa/barra única, filtros e chips em faixa que desliza, indicadores em 2 colunas, textos sem cortar no meio da palavra.
 - **Números** com algarismos alinhados (`font-variant-numeric: tabular-nums`), sem fonte monoespaçada; valores com sinal não quebram linha.
 - Reaproveitar as cores, raios, botões e chips que o sistema já usa — não criar um estilo novo para cada tela.
+
+### Regras que não podem ser desfeitas (o teste visual falha se forem quebradas)
+Já foram desfeitas por engano mais de uma vez (cores das lojas em 18/11 → 24/11; nome do produto no tablet em 24/11). Antes de mudar cor ou tabela, ler isto:
+1. **Cores das lojas (`STORE_COLORS`) nunca em vermelho, laranja, amarelo ou verde** — essas cores são dos alertas (ruptura, estoque negativo, cobertura baixa, ok). Hoje: Coronel azul `#2563eb`, Correas magenta `#c026d3`, Bingen verde-azulado `#0d9488`. Ao trocar, atualizar junto `.store-cN`, `.family-store.cN .sdot` e as faixas `.st-gN`.
+2. **Tabelas por loja (Produtos, Complementos): Estoque e Vendas da mesma loja têm a mesma faixa de cor**, no cabeçalho e em todas as linhas (`td.st-cell.st-gN` + `td.st-sale.store-cN`). Só ruptura/estoque negativo pintam a célula de vermelho. Vendas em texto na cor da loja; estoque em texto escuro (laranja/vermelho só quando é alerta).
+3. **A coluna do nome do produto aparece em todas as larguras**, inclusive tablet (820 e 1024 px).
+4. Linhas de tabela até 110 px; nada passa da largura da tela.
 
 ### v2.17 (18/11/2026): ajustes do critique/audit Impeccable
 - Sugestão de compras: no celular vira cartões (`.pc-card`) com "Comprar X kg/un" e marcação "Comprado"; parâmetros recolhidos em `<details class="pc-params">`; botão "Enviar no WhatsApp". Itens vendidos por unidade (`unidade`=un) sempre arredondam para cima.
 - Importação: prévia + confirmação (`#importModal`); a base anterior fica em `app.previousImport` e volta com "Desfazer última importação".
-- Cores das lojas não usam mais vermelho/verde (reservados a alerta). Seleção de loja fica salva por aparelho (`rdg_compras_prefs`).
+- Cores das lojas não usam vermelho/laranja/amarelo/verde (reservados a alerta) — ver "Regras que não podem ser desfeitas". Seleção de loja fica salva por aparelho (`rdg_compras_prefs`).
 - Acessibilidade: texto mínimo 11 px, cinza de texto `#667085` (não usar `#98a2b3` em texto), itens com `onclick` ganham foco e Enter automaticamente.
 
 ### Conferência antes de publicar
-0. **Rodar `node test-visual.cjs` e só publicar se der "Visual OK".** Abre as 8 abas (lidas do menu) com `tests/dados-ficticios.js` em 390 e 1440 px; falha se a página estoura a largura, se uma linha de tabela passa de 110 px ou se dá erro de script. Ao criar aba nova, ela entra sozinha no teste. `FOTOS=<pasta> node test-visual.cjs` salva uma foto de cada tela para o antes e depois.
+0. **Rodar `node test-visual.cjs` e só publicar se der "Visual OK".** Abre todas as abas (lidas do menu) com dados fictícios em 390, 820, 1024 e 1440 px; falha se a página estoura a largura, se uma linha de tabela passa de 110 px, se dá erro de script, se o nome do produto some, se Estoque e Vendas da mesma loja ficam com fundos diferentes ou se uma cor de loja cai nas cores de alerta. Ao criar aba nova, ela entra sozinha no teste. `FOTOS=<pasta> node test-visual.cjs` salva uma foto de cada tela para o antes e depois.
 1. Abrir o sistema com **dados fictícios** e **sem acesso ao banco real** (veja "Como testar o visual" abaixo).
-2. Fotografar as telas alteradas em 390 px e 1440 px (Playwright já instalado no ambiente; Chromium em `/opt/pw-browsers`).
+2. Fotografar as telas alteradas em 390, 1024 e 1440 px (Playwright já instalado no ambiente; Chromium em `/opt/pw-browsers`).
 3. Medir que `document.documentElement.scrollWidth` não passa da largura da janela em todas as abas.
 4. Mostrar ao Marcelo as fotos de **antes e depois** na resposta e dizer o que não foi testado.
 
