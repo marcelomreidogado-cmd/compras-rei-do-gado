@@ -29,7 +29,7 @@ const put=(path,value)=>{const ks=parts(path),last=ks.pop();let o=tree;for(const
 const snap=path=>({val:()=>{const v=get(path);return v==null?null:JSON.parse(JSON.stringify(v));},exists:()=>get(path)!=null});
 window.__fakeTree=tree;
 const user={email:'teste@reidogado.com.br',uid:'u'};
-const ref=(path='')=>({once:async()=>snap(path),on:(e,cb)=>{setTimeout(()=>cb(snap(path)),20);return cb},off(){},set:async v=>put(path,v),update:async u=>{for(const[k,v] of Object.entries(u))put(path+'/'+k,v);},transaction:async fn=>{const v=fn(get(path)==null?null:JSON.parse(JSON.stringify(get(path))));put(path,v);return{committed:true,snapshot:snap(path)};}});
+const ref=(path='')=>({once:async()=>snap(path),on:(e,cb)=>{setTimeout(()=>cb(snap(path)),20);return cb},off(){},set:async v=>put(path,v),update:async u=>{for(const[k,v] of Object.entries(u))put(path+'/'+k,v);},push:()=>{const key='k'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);return{key,...ref(path+'/'+key)};},transaction:async fn=>{const v=fn(get(path)==null?null:JSON.parse(JSON.stringify(get(path))));put(path,v);return{committed:true,snapshot:snap(path)};}});
 const auth={currentUser:user,onAuthStateChanged:cb=>{setTimeout(()=>cb(user),10);return()=>{}},setPersistence:async()=>{},signInWithEmailAndPassword:async()=>({user}),signOut:async()=>{}};
 const appo={auth:()=>auth,database:()=>({ref})};
 window.firebase={apps:[],initializeApp(){this.apps.push(appo);return appo},app:()=>appo,auth:Object.assign(()=>auth,{Auth:{Persistence:{LOCAL:1,SESSION:2}}}),database:()=>({ref})};

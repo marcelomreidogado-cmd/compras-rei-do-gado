@@ -103,6 +103,8 @@ const NODE_APPLY={
   core(v){if(!v)return;app.settings={coverageDays:7,safetyDays:2,roundMode:'precise',...(v.settings||{})};app.products=normalizeUnitQuantities(Array.isArray(v.products)?v.products:[]);operationUnitCache.clear();app.meta={...clone(INITIAL_DATA.meta),...(v.meta||{})};app.familyMap=v.familyMap||{};app.period={start:'',end:'',...(v.period||{})};app.settings={coverageDays:7,safetyDays:2,roundMode:'precise',...(v.settings||{})};app.previousImportAt=v.previousImportAt||'';app.syncUpdatedAt=v.syncUpdatedAt||'';},
   hiddenProducts(v){app.hiddenProducts=Object.values(v||{}).map(String);},
   productFollowups(v){app.productFollowups=v||{};},
+  counts(v){app.counts=v||{};if(typeof renderCounts==='function')renderCounts();},
+  countLists(v){app.countLists=v||{};if(typeof renderCounts==='function')renderCounts();},
   unitCatalog(v){app.unitCatalog=v||{};operationUnitCache.clear();},
   previousImport(v){app.previousImport=v&&Array.isArray(v.products)?v:null;},
   operationsMeta(v){const byId=v?.imports||{},imports=Object.entries(byId).map(([id,e])=>({id,...e})).sort((a,b)=>(b.importedAt||'').localeCompare(a.importedAt||''));app.operationsMeta={imports,importsById:byId,importedAt:v?.importedAt||'',importedBy:v?.importedBy||''};loadOperations().catch(error=>showToast('Não foi possível carregar as movimentações',firebaseErrorMessage(error),'error'));}
