@@ -4,7 +4,8 @@ Painel gerencial de compras do açougue Rei do Gado: visão geral, produtos, fam
 
 ## Arquitetura
 - `index.html` é o app inteiro (~90 KB, sem build). Versão em `VERSION` (formato `"2.16.0-2026-11-17"`; também na meta `rdg-version` e no texto "Versão" das telas) — atualizar ao mudar comportamento.
-- Telas (`data-page`): `overview`, `purchase`, `products` (Estoque por loja), `prices`, `extras` (Complementos), `operations`, `families`.
+- Telas (`data-page`): `overview`, `purchase`, `products` (Estoque por loja), `prices`, `extras` (Complementos), `count` (Contagem), `operations`, `families`.
+- **v3.2 Contagem** (`contagem.js`): `counts/<id>` = {date, store, responsible, title, status open/closed, baseImportedAt, items/<código> {name,family,unit,system,cost,counted,at,by}} e `countLists/<id>` (listas salvas). O "sistema" é o estoque da planilha no momento em que a contagem é criada (fica congelado). Cada número digitado grava só `counts/<id>/items/<código>`. Atalho "Contar estas famílias" em Complementos.
 - **v3.1:** Produtos mostra só as linhas da loja; bebidas, molhos e outras famílias de apoio ficam em Complementos. Quais famílias vão para Complementos fica em `app.settings.sideFamilies` (padrão BEBIDAS e MOLHOS COM SAIDA), escolhido na própria aba. `estoque.js` faz as duas abas e a unidade de cada produto (`productMeasureUnit`: `unitCatalog` → `unidade` → nome → família). Itens por unidade são sempre inteiros (`normalizeUnitQuantities` na importação e ao carregar; movimentações arredondadas em `expandOperations`).
 - Operações separa as perdas por tipo (Limpeza, Sangue/líquido, Estragado/vencido, Perda na loja); nunca somar tipos numa coluna só sem mostrar o detalhe.
 - SheetJS 0.18.5 (cdnjs) para ler as planilhas; Firebase compat 10.12.5 (auth + **Realtime Database**).
@@ -23,7 +24,7 @@ Painel gerencial de compras do açougue Rei do Gado: visão geral, produtos, fam
 - Usuário (Marcelo) trabalha em português do Brasil, no Mac, e prefere soluções simples, sem terminal.
 
 ## Módulos e visual (17/11/2026)
-- Além do `index.html`: `store.js` (gravação/sincronização), `estoque.js` (Produtos e Complementos, unidades), `extrato.js` (leitor do PDF do extrato, também roda no Node), `operacoes.js` (aba Operações), `prices.js` (Produtos e preços), `product-notes.js` (marcação "comprado nesta semana" e observações). Cada um carregado com `?v=` — ao mudar o arquivo, subir o `v` no `<script>` do `index.html`. Testes: `node test-extrato.cjs`, `node test-estoque.cjs`, `node test-prices.cjs`, `node test-product-notes.cjs`, `node test-visual.cjs`.
+- Além do `index.html`: `store.js` (gravação/sincronização), `estoque.js` (Produtos e Complementos, unidades), `contagem.js` (Contagem), `extrato.js` (leitor do PDF do extrato, também roda no Node), `operacoes.js` (aba Operações), `prices.js` (Produtos e preços), `product-notes.js` (marcação "comprado nesta semana" e observações). Cada um carregado com `?v=` — ao mudar o arquivo, subir o `v` no `<script>` do `index.html`. Testes: `node test-extrato.cjs`, `node test-estoque.cjs`, `node test-contagem.cjs`, `node test-prices.cjs`, `node test-product-notes.cjs`, `node test-visual.cjs`.
 - Extrato: um PDF pode ter as 3 lojas; a loja é lida em cada página. A importação confere a soma das quantidades com o "Resumo por operação" do próprio PDF e substitui só as datas lidas de cada loja. Cores das lojas (validadas para daltonismo): Coronel #2563eb, Correas #d97706, Bingen #0d9488.
 - Não commitar extratos reais nem dados reais (repositório público): testes só com dados fictícios.
 - Visual: classes no fim do `<style>` (`.pn-*` marcação compacta em uma linha; `.pk-row/.pk-chip` filtros de preço). Evitar estilos inline grandes dentro das tabelas — cada produto deve caber em ~2 linhas.
